@@ -11,17 +11,20 @@ Requirements:
 Binaries
 
 - Python 3.9 or greaters
+- Git**
 
 Python packages:
 
 - pip install -r requirements.txt
 
 ```
+\*\*Git can be installed via apt for Debian-based distros or by downloading the binaries from [git-scm.com](https://git-scm.com/download/win) for Windows.
+
 ### HOW TO USE
 ```python
 # Run Server
 
-pyhton manage.py runserver
+python manage.py runserver
 
 
 ```
