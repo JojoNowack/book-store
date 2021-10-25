@@ -18,15 +18,15 @@ Python packages:
 
 ```
 ### HOW TO USE
-```
-Command line usage:
+```python
+# Run Server
 
 pyhton manage.py runserver
 
 
 ```
 
-### **Sites**
+### SITES
 - [`book_store/account/templates/login.html`](book_store/account/templates/login.html) - [LOGIN](http://127.0.0.1:8000/account/login)
 
 
