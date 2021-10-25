@@ -17,14 +17,20 @@ Python packages:
 - pip install -r requirements.txt
 
 ```
-### Useage
+### HOW TO USE
 ```
 Command line usage:
-TODO
-...
+
+pyhton manage.py runserver
 
 
 ```
+
+### **Sites**
+- [`book_store/account/templates/login.html`](book_store/account/templates/login.html) - [LOGIN](http://127.0.0.1:8000/account/login)
+
+
+
 
 ## **Changelog:** (Example, falls man das brauch z.B zur besseren Nachverfolgung?)
 **v2.2 (24 Oct 2021):**
