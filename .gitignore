@@ -2,3 +2,4 @@ venv/
 book_store/book_store/.env
 book_store/.env
 *.pyc
+.idea/
