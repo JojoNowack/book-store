@@ -27,4 +27,4 @@ jobs:
         pip install -r book_store/requirements.txt
     - name: Run Tests
       run: |
-        python manage.py test
+        python book_store/manage.py test
