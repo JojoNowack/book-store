@@ -32,7 +32,7 @@ python manage.py runserver
 ### SITES
 - [`book_store/account/templates/login.html`](book_store/account/templates/login.html) - [LOGIN](http://127.0.0.1:8000/account/login)
 
-
+###cicd test
 
 
 ## **Changelog:** (Example, falls man das brauch z.B zur besseren Nachverfolgung?)
