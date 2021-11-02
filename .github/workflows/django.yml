@@ -8,7 +8,8 @@ on:
 
 jobs:
   build:
-
+    
+    env: ${{ secrets.IS_GITHUB }}
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
