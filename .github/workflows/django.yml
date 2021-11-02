@@ -5,11 +5,11 @@ on:
     branches: [ cicdtestbranch ]
   pull_request:
     branches: [ master ]
-
-jobs:
-  build:
     
-  env: ${{ secrets.IS_GITHUB }}
+env:
+  IS_GITHUB: "1"
+jobs:
+  build:        
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
