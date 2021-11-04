@@ -9,7 +9,7 @@ posts = [
         'date_posted' : 'November 04, 2021'
     },
     {
-        'author' : 'Carmen Behringer',
+        'author' : 'Max Mustermann',
         'title' : 'Marketing ist nur Werbung',
         'content' : 'Erläuterung des Marketing Begriffs',
         'date_posted' : 'November 04, 2021'
