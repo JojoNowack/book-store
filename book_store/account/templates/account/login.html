@@ -1,0 +1,11 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+{% comment %} accessing an variable use {{  }} {% endcomment %}
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        <p>By {{ post.author }} on {{ post.date_posted }}</p>
+        <p>{{ post.content }}</p>
+    {% endfor %}
+{% endblock content %}
+
