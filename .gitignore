@@ -4,3 +4,4 @@ book_store/.env
 *.pyc
 __pycache__/
 .idea/
+book_store/account/__py*

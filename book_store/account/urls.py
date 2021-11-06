@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from account.views import loginView
+from account.views import mainView
 
 urlpatterns = [
-    path('login', loginView, name="login")
+    path('login', loginView, name="login"),
+    path('ha',mainView,name='login')
 ]

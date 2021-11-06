@@ -6,3 +6,8 @@ def loginView(request):
     if (request.GET.get('mybtn')):
        print( request.GET.get('mytextbox'))
     return render(request, "login.html",{})
+
+def mainView(request):
+    if (request.GET.get('mybtn')):
+       print( request.GET.get('mytextbox'))
+    return render(request, "login.html",{})
