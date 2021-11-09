@@ -1,26 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Post
+from django.contrib import messages
+from account.forms import UserRegisterForm
 # Create your views here.
 
-posts = [
-    {
-        'author' : 'Kevin Schmidt',
-        'title' : 'Mein erstes Programm mit Django',
-        'content' : 'Das ist ein kurzer Überblick über das Framework',
-        'date_posted' : 'November 04, 2021'
-    },
-    {
-        'author' : 'Max Mustermann',
-        'title' : 'Marketing ist nur Werbung',
-        'content' : 'Erläuterung des Marketing Begriffs',
-        'date_posted' : 'November 04, 2021'
-    }
-]
 # def loginView(request):
 #     return render(request, "login.html",{})
 
+def register(request):
+    if request.method == 'POST':
+    # Templates of Django -> Forms
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Konto wurde angelegt! Sie können sich nun anmelden.')
+            return redirect('login-site')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'account/register.html', {'form':form})
+    
+    
 def home(request):
     context = {
-        'posts' : posts
+        'posts' : Post.objects.all()
     }
     return render(request, 'account/login.html', context)
 
