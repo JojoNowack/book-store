@@ -129,10 +129,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-# LOGIN_REDIRECT_URL = 'account-register'
-
+# please enter the path of the main homepage
+# siehe hier für "account -> urls.py" das attribut 'name' 
+LOGIN_REDIRECT_URL = 'about-site'
+'''if someone logs out and tries to type manually to the URL the path '.../profile/' he would get
+an Error 404 Page not found. According to that django try to open the path '...account/login/'
+since the path does not exist, the Error 404 Page not found raise. But if we tell django to 
+the following path below, the login page will be displayed
+'''
+LOGIN_URL = 'login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
