@@ -7,7 +7,8 @@ from . import views
 #     path('login', loginView, name="login")
 # ]
 urlpatterns = [
-    # the first page u see
+    # the first page you see
     path('', views.home, name='login-site'),
-    path('about/', views.about, name='about'),
+    path('register/', views.register, name='register-site'),
+    path('about/', views.about, name='about-site')
 ]
