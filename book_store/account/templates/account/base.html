@@ -2,20 +2,21 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %} {% endblock %}</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     
     <link rel="stylesheet" type="text/css" href="{% static 'account/main.css' %}">
-
-    {% if title %}
-        <title>Django-Blog - {{title}} </title>
+    
+    {% comment %} {% if title %}
+        <title>{{title}} </title>
     {% else %}
-        <title>Django-Blog </title>
-    {% endif %}
+        <title> no title found</title>
+    {% endif %} {% endcomment %}
 
 </head>
 <body>
@@ -33,16 +34,27 @@
         </div>
         <!-- Navbar Right Side -->
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="#">Login</a>
-          <a class="nav-item nav-link" href="#">Register</a>
+        {% block route %}{% endblock route %}
+          {% comment %} <a class="nav-item nav-link" href="{% url 'login-site' %}">Anmelden</a> {% endcomment %}
+            {% comment %} <a class="nav-item nav-link" href="{% url 'register-site' %}">Registrieren</a> {% endcomment %}
         </div>
       </div>
     </div>
   </nav>
 </header>
-        <main role="main" class="container">
+    <main role="main" class="container">
     <div class="row">
         <div class="col-md-8">
+            {% if messages %}
+                {% for message in messages  %}
+                    <div class="alert alert-{{ message.tags }}">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                        {{message}}
+                    </div>       
+                {% endfor %}
+            {% endif %}
         {% block content %}{% endblock %}
         </div>
         {% comment %} <div class="col-md-4">
