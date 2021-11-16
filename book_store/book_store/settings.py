@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'book_store',
+    'books',
     'account.apps.AccountConfig',
     'crispy_forms',
     'django.contrib.admin',
