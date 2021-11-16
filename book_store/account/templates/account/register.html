@@ -10,21 +10,22 @@
 {% endblock route %}
 
 
+
 {% block content %}
-   <div class="content section">
+   <div class="content section centertext"style="width: 350px; font-weight: bold; font-size: 17px" >
     <form method="POST" >
         {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Registrieren Sie sich:</legend>
-            {{ form|crispy }}
+        <fieldset class="form-group" >
+            <legend class="border-bottom mb-4 ">Registrieren Sie sich:</legend>
+                {{ form|crispy }}
         </fieldset>
         <div class="form-gorup">
-            <button class="btn btn-outline-info" type="submit">Registrieren</button>
+            <button class="btn btn-outline-info"  type="submit">Registrieren</button>
         </div>
     </form>
-    <div class="border-top" pt-3>
-        <small class="text-muted">
-            Bereits Regestriert? <a class="ml-2" href="{% url 'login-site' %}">Anmelden</a>
+    <div class="border-top">
+        <small class="text-muted" style="color:white !important;">
+            Bereits Regestriert? <a class="ml-2" style="font-weight: bold; font-size: 15px" href="{% url 'login-site' %}">Anmelden</a>
         </small>
     </div>
    </div>

@@ -1,0 +1,50 @@
+{% comment %} it is the parent template. login and about inherit the characteristica of base {% endcomment %}
+{% load static %}
+<!------------------------------- HEADER -------------------------------->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="{% static 'books/header.css' %}">
+<link rel="stylesheet"   href="{% static 'books/cart.css' %}">
+<div class="navbar">
+
+
+    
+    <h1><a href="{% url 'about-site' %}">OnlineBib</a></h1>
+
+
+
+  <header class="navmenu">
+
+  <input type='checkbox' id='toggle' style='display:none;' />
+  <label id="menubutton" class='toggle-btn toggle-btn__cross' for='toggle'>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </label>
+  {% comment %} {% block route %}{% endblock route %}{% endcomment %}
+  <nav class="hidescrollbarmenu">
+
+    <ul>
+      {% if user.is_authenticated %}
+      <li><a href="#" id="cart123"><i class="fa fa-shopping-cart"></i>Cart<span class="badge">13</span></a></li>
+      <li><a href="books">Home</a></li>
+      <li><a href="{% url 'profile' %}">Profile</a></li> 
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+      {% else %}
+      <li><a href="books">Home</a></li>
+      <li><a href="{% url 'login' %}">Login</a></li> 
+      <li><a href="{% url 'register-site' %}">Register</a></li>
+      {% endif %} 
+    <li><a href="{% url 'about-site' %}">About</a></li> 
+    <li><a href="products">Blog</a></li>
+	  
+    </ul>
+	
+  </nav>
+</header>
+
+
+
+</body>
+</html>
+</div>
+<!------------------------------- HEADER -------------------------------->
