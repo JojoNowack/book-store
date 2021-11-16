@@ -8,4 +8,3 @@ class Articles(models.Model):
     date = models.DateTimeField()
     author = models.CharField(max_length=30)
     isavailable = models.BooleanField()
-    url = models.BooleanField()
