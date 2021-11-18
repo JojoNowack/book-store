@@ -37,9 +37,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: python-app
-          path: |
-            . 
-            !venv/
+          path: book_store/
 
   deploy:
     runs-on: ubuntu-latest
