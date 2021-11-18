@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from decouple import config
 from pathlib import Path
+import os
+from django.contrib.messages import constants as messages
 
 import os
 
@@ -23,7 +25,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-#SECRET_KEY = config('SECRET_KEY')
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') #try to get secret key from github
 if SECRET_KEY is None:
     SECRET_KEY = config('SECRET_KEY') #else get it from the local .env file
@@ -38,7 +39,10 @@ ALLOWED_HOSTS = ['bibforme.azurewebsites.net']
 # Application definition
 
 INSTALLED_APPS = [
-    'account',
+    'book_store',
+    'books',
+    'account.apps.AccountConfig',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,6 +81,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'book_store.wsgi.application'
 
+MESSAGES_TAGS = {
+    messages.DEBUG: 'alter-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-succes',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -113,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 
@@ -126,6 +137,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# please enter the path of the main homepage
+# siehe hier für "account -> urls.py" das attribut 'name' 
+LOGIN_REDIRECT_URL = 'about-site'
+'''if someone logs out and tries to type manually to the URL the path '.../profile/' he would get
+an Error 404 Page not found. According to that django try to open the path '...account/login/'
+since the path does not exist, the Error 404 Page not found raise. But if we tell django to 
+the following path below, the login page will be displayed
+'''
+LOGIN_URL = 'login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

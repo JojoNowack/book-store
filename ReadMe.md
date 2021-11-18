@@ -22,27 +22,25 @@ Python packages:
 
 ### HOW TO USE
 ```python
-# Run Server
+# Run Server - 
 
-python manage.py runserver
+python manage.py runserver --insecure
 
 
 ```
 
 ### SITES
-- [`book_store/account/templates/login.html`](book_store/account/templates/login.html) - [LOGIN](http://127.0.0.1:8000/account/login)
+- [`book_store/account/templates/login.html`](book_store/account/templates/login.html) - [LOGIN](http://127.0.0.1:8000/login)
+- [`book_store/account/templates/about.html`](book_store/account/templates/about.html) - [ABOUT](http://127.0.0.1:8000/about)
+- [`book_store/account/templates/register.html`](book_store/account/templates/register.html) - [REGISTER](http://127.0.0.1:8000/register)
+- [`book_store/account/templates/profile.html`](book_store/account/templates/profile.html) - [LOGIN](http://127.0.0.1:8000/profile)
+- [`book_store/account/templates/logout.html`](book_store/account/templates/logout.html) - [LOGOUT](http://127.0.0.1:8000/logout)
+- [`book_store/books/templates/`](book_store/books/templates/) - [BOOKS](http://127.0.0.1:8000/)
+- [`book_store/books/templates/`](book_store/books/templates/) - [Products](http://127.0.0.1:8000/books/products/)
 
 ###cicd test
 
+## **Comments / TODO**
+- python manage.py runserver --insecure damit Static files laden?
+- 
 
-## **Changelog:** (Example, falls man das brauch z.B zur besseren Nachverfolgung?)
-**v2.2 (24 Oct 2021):**
-- Added basic support for downloading an entire podcast series.
-- Split code into multiple files for easier maintenance.
-- Changed initial launch script to app.py
-- Simplified audio formats.
-- Added prebuild exe for Windows users.
-- Added Docker file.
-- Added CONTRIBUTING.md.
-- Fixed artist names getting cutoff in metadata.
-- Removed data sanitization of metadata tags.
