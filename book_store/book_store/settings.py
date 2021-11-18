@@ -24,7 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 print("johannes log var: ",)
 #SECRET_KEY = config('SECRET_KEY')
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') #try to get secret key from github
+if SECRET_KEY is None:
+    SECRET_KEY = config('SECRET_KEY') #else get it from the local .env file
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
