@@ -10,6 +10,8 @@ on:
       - cicdtestbranch
   workflow_dispatch:
 
+env:
+  DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
 jobs:
   build:
     runs-on: ubuntu-latest
