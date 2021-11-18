@@ -38,9 +38,9 @@ python manage.py runserver --insecure
 - [`book_store/books/templates/`](book_store/books/templates/) - [BOOKS](http://127.0.0.1:8000/)
 - [`book_store/books/templates/`](book_store/books/templates/) - [Products](http://127.0.0.1:8000/books/products/)
 
-
-
+###cicd test
 
 ## **Comments / TODO**
 - python manage.py runserver --insecure damit Static files laden?
 - 
+

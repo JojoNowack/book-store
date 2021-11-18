@@ -5,6 +5,7 @@ on:
     branches: ['*']
   pull_request:
     branches: [ '*' ]
+
     
 env:
   DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
@@ -15,6 +16,7 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.9]
+
 
     steps:
     - uses: actions/checkout@v2

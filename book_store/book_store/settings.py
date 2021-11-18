@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
 
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,14 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') #try to get secret key from github
 if SECRET_KEY is None:
     SECRET_KEY = config('SECRET_KEY') #else get it from the local .env file
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['bibforme.azurewebsites.net']
 
 
 # Application definition
