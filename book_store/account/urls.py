@@ -8,7 +8,7 @@ from . import views
 # ]
 urlpatterns = [
     # the first page you see
-    path('', views.login, name='login-site'),
+    path('login', views.login, name='login-site'),
     path('register/', views.register, name='register-site'),
     # the path to the main page 
     path('about/', views.about, name='about-site')
