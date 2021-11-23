@@ -136,10 +136,11 @@
       {% if title in Articles.title.lower %}
       {% define 1 as counter%}
     <a href="products?title={{Articles.title.lower}}&id={{Articles.id}}">
-    <card data-image="https://bilder.buecher.de/produkte/61/61256/61256841n.jpg">
+    <card data-image="{{Articles.book_img.url}}">
+    {% comment %} <card data-image="https://bilder.buecher.de/produkte/61/61256/61256841n.jpg"> {% endcomment %}
     <h1 slot="header">{{Articles.title}}</h1>
     <p slot="content">{{Articles.body}}</p>
-          {% if Articles.isavailable %}
+          {% if not Articles.isavailable %}
     <h2 slot="content">NICHT VERFÜGBAR</h2>
           {% else %} <!---- Else    if all_articels  ----->
           {% endif %} <!---- End    if XY in articles.title  ---->
