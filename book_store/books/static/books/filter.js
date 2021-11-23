@@ -7,10 +7,10 @@ function suchfensterschließen() {
   let divCadastro = document.querySelector('.container-cadastro')
 
   divCadastro.classList.remove('ativo')
-  limparCamposCadastro()
 }
 
 // register the handler 
+
 document.addEventListener('keyup', doc_keyUp, false);
 
 // define a handler

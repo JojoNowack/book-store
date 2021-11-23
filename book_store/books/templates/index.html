@@ -1,32 +1,26 @@
 {% comment %} it is the parent template. login and about inherit the characteristica of base {% endcomment %}
 {% load static %}
-{% load save_var %}
+{% load templatehelpers %}
 {% include 'header.html' %}
-{% include 'shopping-cart.html' %}
+
 <!DOCTYPE html>
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
+
+
   
   <title>Startseite</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <title>Startseite</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="{% static 'books/filter.css' %}">
+
   <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Playfair+Display:700|Raleway:500.700'><link rel="stylesheet" href="{% static 'books/style.css' %}">
+
   </head>
 <body>
-<style>
-  body{
-    background-image: linear-gradient( rgba(0, 0, 0, 0%), rgba(0, 0, 0, 100%) ), url("{% static 'books/images/wallpaper.png' %}") !important;
-        background-position: center top;
-        background-attachment: fixed;
-        background-clip: padding-box;
-        background-size: cover;
-		margin: 80px 0 !important;
-  }
-</style>
+ 
+<style>html{visibility: hidden;opacity:1;}</style>
 
 
 
@@ -47,9 +41,8 @@
   </label>
    <nav class="hidescrollbarmenu">
     <ul>
-	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="{% static 'books/cart.js' %}"></script>
 
-	  <li><a href="?title=lakes&body=&date=&author=&inputtext=Press">Lakes</a></li>
+	  <li><a href="?title=lakes&body=&date=&author=">Lakes</a></li>
 	  <li><a href="#">Home</a></li>
 	  <li><a href="#">Home</a></li>
 	  <li><a href="#">Home</a></li>
@@ -77,8 +70,8 @@
 
 
 
-
   <script  src="{% static 'books/filter.js' %}"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="{% static 'books/cart.js' %}"></script>
 
 </body>
 </html>
@@ -105,9 +98,11 @@
          <!----- <legend>Suchen</legend>------>
        
     </div>
+    <div style="text-align:center;">
           <button input type="submit" value="Press" class="btn btn-outline-info" style="font-weight: bold; margin-top:20px;" onclick="">Suchen</button>
         </form>
         <button class="btn btn-outline-info" style="font-weight: bold; margin-top:20px;" onclick="suchfensterschließen()">Beenden</button>
+      </div>  
         
     
 
@@ -122,8 +117,14 @@
 
 
 
-
-
+  <noscript>
+  <style type="text/css">
+    .pagecontainer {display:none;}
+</style>
+<div class="noscriptmsg">
+<h1>Please enable Javascript to enjoy the full experience of OnlineBib</h1>
+</div>
+</noscript>
 
 
 
@@ -131,38 +132,63 @@
 <!-- partial:index.partial.html -->
 <h1 class="title">Wähle dein Buch</h1>
 <div id="app" class="containercards">
-  {% if all_articels %}
-    {% for Articles in all_articels|dictsort:"title" %}
-      {% if title in Articles.title.lower %}
-      {% define 1 as counter%}
+  {% if books_page_obj %}
+    {% for Articles in books_page_obj|dictsort:"title" %}
     <a href="products?title={{Articles.title.lower}}&id={{Articles.id}}">
     <card data-image="https://bilder.buecher.de/produkte/61/61256/61256841n.jpg">
     <h1 slot="header">{{Articles.title}}</h1>
-    <p slot="content">{{Articles.body}}</p>
+    <p slot="content">{{Articles.author}}</p>
           {% if Articles.isavailable %}
     <h2 slot="content">NICHT VERFÜGBAR</h2>
+    
           {% else %} <!---- Else    if all_articels  ----->
           {% endif %} <!---- End    if XY in articles.title  ---->
-      {% else %} <!---- Else    if all_articels  -----> 
-      {% endif %} <!---- End    if all_articels  ---->
     </card>
     </a>
-    {% if forloop.last %}
-    {% if counter != 1 %}
-    <a href="products?title={{Articles.title.lower}}&id={{Articles.id}}">
-      <card data-image="https://pixabay.com/get/g60a452f15e27abef5f5c6a76490f03e29d647ca499a0d25a0b8eeaa4109bfe499a1ceed336888871fb589676008d160f83df7364e98e95e64a653c04ebeede50_1920.png">
-        <h1 slot="header">404</h1>
-        <p slot="content">Book not found</p>
-      </card>
-      </a>
-
-      
-
-    {% endif %}
-    {% endif %}
+   
     {% endfor %}
+   
+<!-- PAGINATION START ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+<!--
+  Copyright (c) 2021 by Béla Varga (https://codepen.io/netzzwerg/pen/hfutI)
 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+
+<div class="containerpagination xsmall">
+
+<div class="pagination">
+  {% if books_page_obj.has_previous %}
+  <li><a href="{% relative_url books_page_obj.previous_page_number 'page' request.GET.urlencode %}"slot="content">ZURÜCK</a></li>
+  {% endif %}
+  <li class="active"><a href="">{{books_page_obj.number}}/{{books_page_obj.paginator.num_pages}}</a></li>
+  <li><a  href="{% relative_url i 'page' request.GET.urlencode %}" slot="content">i / {{books_page_obj.paginator.num_pages}}</a></li> 
+
+  {% if books_page_obj.has_next %}
+  <li><a href="{% relative_url books_page_obj.next_page_number 'page' request.GET.urlencode %}" slot="content">WEITER</a></li>
   {% else %}
+  <li><a href="{% relative_url 1 'page' request.GET.urlencode %}"slot="content">SEITE 1</a></li>
+  {% endif %}
+</div>
+</div>
+</div>
+
+
+
+
+<!-- PAGINATION END ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+  {% else %}
+  <a href="products?title={{Articles.title.lower}}&id={{Articles.id}}">
+    <card data-image="https://pixabay.com/get/g66dfbcfa607ee706626a93efc23470ebdd74fada04973735fb1ca320313299a1cf088fe5e9276e333b4f6408cf01c7d239d1206ac27bafd7efe5fa98b4f11f70_1280.png">
+      <h1 slot="header">404</h1>
+      <p slot="content">Book not found</p>
+    </card>
+    </a>
   {% endif %}
 
 
@@ -174,7 +200,9 @@
 </div>
 
 <!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js'></script><script  src="{% static 'books/script.js' %}"></script>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Playfair+Display:700|Raleway:500.700'><link rel="stylesheet" href="{% static 'books/OnlineBib.css' %}">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js'>
+</script><script  src="{% static 'books/script.js' %}"></script>
 
 </body>
 </html>

@@ -1,0 +1,89 @@
+
+
+
+  .table {
+    display: table;
+    white-space: wrap;
+  }
+
+  .cell {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 10px;
+    border: 1px solid #e4e5e7;
+  }
+
+  .cell .table {
+    margin-bottom: -2px;
+  }
+
+  .table.wrap {
+    white-space: normal;
+  }
+
+  .table.wrap > .cell {
+    display: block;
+  }
+
+  .container {
+    background: transparent;
+    margin-top: 50px;
+    border-radius: 0.2rem;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.8);
+    align-items: center;
+    font-weight: bold;
+    background: linear-gradient( rgba(255, 255, 255,25%), rgba(255, 255, 255, 25%) ); 
+    box-sizing: border-box;
+    border-radius: 30px 30px 30px 30px;
+
+  }
+
+  .tableheader{
+    font-size: 18px; 
+    font-family: "Raleway"; 
+    color: Blue;
+    text-align: center;
+    font-weight: bold;
+
+  }
+
+ 
+
+
+
+  .textstyle{
+    font-size: 20px; 
+    font-family: "Raleway"; 
+    color: black;
+    text-align: center;
+
+  
+  }
+  @media only screen and (min-width: 1200px) {
+    .container {
+      padding: 40px 80px;
+    /*display: flex;*/
+    flex-wrap: wrap;
+    justify-content: center;
+    }
+  }
+
+
+
+  .tableheader th{
+    text-align: left;;
+  }
+
+
+  .textstyle th{
+    
+      text-align: left;
+    
+  }
+
+  .textstyle td{
+    
+    text-align: left;
+
+  }
+

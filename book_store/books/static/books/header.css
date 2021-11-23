@@ -18,6 +18,8 @@ main .title {
   
 }
 
+
+
 .hidescrollbarmenu{
   overflow-x: hidden;
   overflow-y: auto;
@@ -59,8 +61,8 @@ main .title {
 
 }
 .navmenu nav ul li a {
-  font-family: 'Roboto Mono', monospace;
-  font-size: 42px;
+  font-family: 'Roboto Mono', monospace !important;
+  font-size: 42px !important;
   display: block;
   font-size: 3em;
   text-decoration: none !important;
@@ -320,3 +322,34 @@ main .title {
   font-weight: bold;
   font-size: 24px;
 }
+
+
+
+.myalert.aktiv {
+  opacity: 1;
+  padding: 20px 50px 20px;
+  transition: all 1.2s ease-in-out;
+  
+  }
+
+.myalert {
+    position: relative;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    text-align: center;    
+    transition: all 1.2s ease-in-out;
+    overflow: hidden;
+    opacity: 0;
+    font-size: 16px;
+}
+
+.myalert-success {
+color: green;
+background-color:  rgb(36, 35, 35,40%);
+border-color:  rgb(36, 35, 35,100%);
+}
+
+.myalert strong{
+font-weight: bolder;
+}
+

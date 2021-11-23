@@ -11,6 +11,13 @@ $(window).bind('beforeunload', function(){
 
 
 
+  
+   
+
+
+
+
+
 
 window.onload = function() {
 	/*document.getElementById("cart123").hidden=false;*/
@@ -20,46 +27,20 @@ window.onload = function() {
   mustclosekategorie = false;
   mustclosenavbar = false;
   iskategoriebutton = false;
+  alertopened = false;
+
+
+
+
+
+
 
 
 $('body').click(function(e){
   var $elem = $(e.target);
-  if ( isopen === true ){
-  if ($elem.attr('id') === 'toggle') {
-     $(".shopping-cart").fadeToggle( "fast");
-
-	 isopen = false;
-  }
-  }
-
-  if ( isopen === true){
-  if ($elem.attr('id') === 'cart123') {
-     $(".shopping-cart").fadeToggle( "fast");
-
-	   isopen = true;
-
-  }
-  }
-  else{
-  if ($elem.attr('id') === 'cart123') {
-     $(".shopping-cart").fadeToggle( "fast");
-	   isopen = true;
-  }
-  }
-
-  
+ 
   
 
-
-
-  if ( isopen === true ){
-  if ($elem.attr('id') === 'toggle2') {
-     $(".shopping-cart").fadeToggle( "fast");
-	 isopen = false;
-	 var scrolbutton = document.getElementById("kategoriebutton");
-	 scrolbutton.style.position="absolute";
-  }
-  }
   
 
 
