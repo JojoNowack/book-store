@@ -1,2 +1,3 @@
 venv/
 book_store/book_store/.env
+__pycache__/
