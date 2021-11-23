@@ -9,6 +9,7 @@ from django.urls import path, include
 from account import views as acc_views
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import faq
 
 urlpatterns = [
     #path of the admin-page
@@ -24,7 +25,9 @@ urlpatterns = [
     path('login/', include('account.urls')),
     path('books/', include('books.urls')),
     path('', lambda req: redirect('/books/')),
+    path('faq/', faq, name='faq-site'),
     path('profile/', acc_views.profile, name='profile')
+    
     
 ] 
 handler404 = customhandler404

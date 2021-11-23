@@ -15,3 +15,5 @@ def customhandler500(request):
     response.status_code = 500
     return response
 
+def faq(request):
+    return render(request, 'faq.html')

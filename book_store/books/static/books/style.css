@@ -38,7 +38,7 @@ h1 + p, p + p {
   justify-content: center;
 }
 .card-wrap {
-  margin: 10px;
+  margin: 20px;
   transform: perspective(800px);
   transform-style: preserve-3d;
   cursor: pointer;
@@ -70,8 +70,8 @@ h1 + p, p + p {
   position: relative;
    font-size: 20px;
   flex: 0 0 240px;
-  width: 240px;
-  height: 320px;
+  width: 300px;
+  height: 400px;
   background-color: #333;
   overflow: hidden;
   border-radius: 10px;
@@ -142,3 +142,5 @@ h1 + p, p + p {
   font-weight: 700;
   text-shadow: rgba(0, 0, 0, 0.5) 0 10px 10px;
 }
+
+

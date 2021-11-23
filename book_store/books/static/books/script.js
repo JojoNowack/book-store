@@ -7,7 +7,7 @@ Vue.component('card', {
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
       ref="card">
-      <div class="card"
+      <div class="cardBook"
         :style="cardStyle">
         <div class="card-bg" :style="[cardBgTransform, cardBgImage]"></div>
         <div class="card-info">

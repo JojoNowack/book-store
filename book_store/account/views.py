@@ -3,6 +3,7 @@ from .models import Post
 from django.contrib import messages
 from account.forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
+from books.models import Articles
 # Create your views here.
 
 def register(request):
@@ -38,3 +39,13 @@ def login(request):
 
 def about(request):
     return render(request, 'account/about.html',{'title':'About'})
+
+
+def test(request):
+    context = {}
+    all_articels = Articles.objects.all()
+
+    context = {"all_articels": all_articels}
+    #return HttpResponse(template.render(context,request))
+    return render(request,'account/test.html',context=context)
+
