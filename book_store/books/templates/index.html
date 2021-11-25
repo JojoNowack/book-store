@@ -133,12 +133,12 @@
 <h1 class="title">Wähle dein Buch</h1>
 <div id="app" class="containercards">
   {% if books_page_obj %}
-    {% for Articles in books_page_obj|dictsort:"title" %}
+    {% for Book in books_page_obj|dictsort:"title" %}
     <a href="products?title={{Articles.title.lower}}&id={{Articles.id}}">
     <card data-image="https://bilder.buecher.de/produkte/61/61256/61256841n.jpg">
-    <h1 slot="header">{{Articles.title}}</h1>
-    <p slot="content">{{Articles.author}}</p>
-          {% if Articles.isavailable %}
+    <h1 slot="header">{{Book.title}}</h1>
+    <p slot="content">{{Book.book_author}}</p>
+          {% if Book.isavailable %}
     <h2 slot="content">NICHT VERFÜGBAR</h2>
     
           {% else %} <!---- Else    if all_articels  ----->

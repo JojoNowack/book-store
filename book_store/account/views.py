@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Post
+#from .models import Post
 from django.contrib import messages
 from account.forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
-from books.models import Articles
+from books.models import Book
 # Create your views here.
 
 def register(request):
@@ -43,7 +43,7 @@ def about(request):
 
 def test(request):
     context = {}
-    all_articels = Articles.objects.all()
+    all_articels = Book.objects.all()
 
     context = {"all_articels": all_articels}
     #return HttpResponse(template.render(context,request))
