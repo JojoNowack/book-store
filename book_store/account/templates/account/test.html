@@ -54,7 +54,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <router-link v-bind:to="{name: 'product', params: {product_id: product.id}}" style="font-size: 20px; font-family: 'Raleway'; color: black" >{{forloop.counter }}</router-link>
           </td>
           <td>
-            {{Order.books.title}}
+            <a href="/books/products/?title={{Order.books.title}}&id={{Order.books.id}}">{{Order.books.title}}</a>
+
           </td>
              <td>
             {{Order.borrow_date}}
@@ -64,7 +65,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
           </td>
          
           <td>
-            <div class="btn btn-warning btn-xs" v-bind:to="{name: 'product-edit', params: {product_id: product.id}}">Edit</div>
+            <div class="btn btn-warning btn-xs" v-bind:to="{name: 'product-edit', params: {product_id: product.id}}" onclick=alert("Verlängen") >Verlängerung</div>
+            <div class="btn btn-warning btn-xs" v-bind:to="{name: 'product-edit', params: {product_id: product.id}}" onclick=alert("Zurückgeben") >Zurückgeben</div>
           </td>
           {% endfor %}
         </tr>
