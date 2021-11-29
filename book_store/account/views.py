@@ -4,6 +4,7 @@ from django.contrib import messages
 from account.forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
 from books.models import Book
+from order.models import Order
 # Create your views here.
 
 def register(request):
@@ -38,14 +39,21 @@ def login(request):
     return render(request, 'account/login.html')
 
 def about(request):
+    #added by johannes to insert new books while runtime
+    #can be deleted
+    print("about to add new books")
+    print(Book.objects.get(id=2))
+    mybook= Book(2, 'img', 'titel', 'desc', '2021-10-10', 'author', True, 12, 'horror', 100)
+    mybook.save()
     return render(request, 'account/about.html',{'title':'About'})
 
-
-def test(request):
-    context = {}
-    all_articels = Book.objects.all()
-
-    context = {"all_articels": all_articels}
-    #return HttpResponse(template.render(context,request))
-    return render(request,'account/test.html',context=context)
-
+#schaut in tabele order und sucht alle einträge zum aktuellen user und listet sie auf -> schickt sie ins html file
+def showmybooks(request):
+    all_books = Order.objects.all()
+    my_books =  all_books.filter(users_id=13)
+    #my_books =Order.objects.get(users_id=13)
+    print(my_books)
+    print(all_books)
+    context = {"all_books": my_books}
+    # return HttpResponse(template.render(context,request))
+    return render(request, 'account/test.html', context=context)

@@ -41,22 +41,26 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
           <div> 
           <th>ID</th>
           <th>Titel</th>
+          <th>Entliehen</th>
           <th>Rückgabe</th>
           <th>Actions</th>
         </tr>
-       
+
         </thead>
         <tbody class="textstyle">
-            {% for Articles in all_articels|dictsort:"date" %}
+            {% for Order in all_books %}
         <tr v-for="product in filteredProducts">
           <td>
             <router-link v-bind:to="{name: 'product', params: {product_id: product.id}}" style="font-size: 20px; font-family: 'Raleway'; color: black" >{{forloop.counter }}</router-link>
           </td>
           <td>
-            {{Articles.title}}
+            {{Order.books.title}}
+          </td>
+             <td>
+            {{Order.borrow_date}}
           </td>
           <td>
-            {{Articles.date}}
+            {{Order.return_date}}
           </td>
          
           <td>
