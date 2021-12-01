@@ -50,10 +50,10 @@ def about(request):
 #schaut in tabele order und sucht alle einträge zum aktuellen user und listet sie auf -> schickt sie ins html file
 def showmybooks(request):
     all_books = Order.objects.all()
-    my_books =  all_books.filter(users_id=13)
-    #my_books =Order.objects.get(users_id=13)
-    print(my_books)
-    print(all_books)
+    if request.user.id is None: #AnonymousUser -> not logged in
+       #TODO: funktioniert noch nicht
+        return render(request, 'account/login.html')
+    my_books =  all_books.filter(users_id=request.user.id)
     context = {"all_books": my_books}
-    # return HttpResponse(template.render(context,request))
     return render(request, 'account/test.html', context=context)
+
