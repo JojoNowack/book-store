@@ -9,7 +9,7 @@
    
    
        <title>Startseite</title>
-     <h1><a href="{% url 'about-site' %}">OnlineBib</a></h1>
+     <h1><a href="{% url 'books-site' %}">OnlineBib</a></h1>
    
    <header class="navmenu">
        
@@ -34,7 +34,7 @@
            <li><a href="{% url 'register-site' %}">Register</a></li>
            {% endif %} 
          <li><a href="{% url 'about-site' %}">About</a></li> 
-         <li><a href="#">FAQ</a></li>
+         <li><a href="{% url 'faq-site' %}">FAQ</a></li>
        </ul>
      
      </nav>

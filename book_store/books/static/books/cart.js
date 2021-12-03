@@ -22,6 +22,9 @@ $(window).bind('beforeunload', function(){
 window.onload = function() {
 	/*document.getElementById("cart123").hidden=false;*/
 	/*document.getElementById("kategoriebutton").hidden=false;*/
+  document.getElementById("scales").value=true
+  document.getElementById("scales").checked = true;
+  $("#scales").prop("checked", true);
   isopen = false;
   ismenubutton = false;
   mustclosekategorie = false;

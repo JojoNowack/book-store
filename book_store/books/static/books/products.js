@@ -45,17 +45,18 @@ function sleep(ms) {
   
   
   
-  async function showalert(msg,id) {
+  async function showalert(msg,id,bookid) {
+    await sleep(500);
     if (  alertopened === true){
       closealert(id);
       await sleep(1200);
-      showalert(msg,id);
+      showalert(msg,id,bookid);
     }
       else{
     if (id === 1){
     var div = document.getElementById('customalert');
-    div.innerHTML = msg;
-    document.querySelector('.myalert').classList.add('aktiv')
+    div.innerHTML = "<br>"+ alertopened + "<br>"   +"<a href='cancel/?bookID="+bookid+"'>Test</a>";
+    document.querySelector('.myalert-success').classList.add('aktiv')
     alertopened = true;
     }
   }

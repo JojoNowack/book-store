@@ -1,7 +1,9 @@
 {% comment %} it is the parent template. login and about inherit the characteristica of base {% endcomment %}
 {% load static %}
+{% load save_var %}
 {% include 'header.html' %}
 {% include 'alerts.html' %}
+{% load templatehelpers %}
 
 
 
@@ -21,13 +23,19 @@
 </head>
 <body>
 
+	<style>  
+	html {
+	visibility: hidden;
+		opacity: 1;
+	}</style>
+
 <!-- partial:index.partial.html -->
 
 <!------ Include the above in your HEAD tag ---------->
 
 	
 
-		<div class="container center" style="margin-top: 50px;">
+		<div class="container containerProduct center textstyle">
 
 	        <div class="heading-section">
 	            <h2></h2>
@@ -36,7 +44,7 @@
 
 	        	<div>
 							<div id="app" class="productcards">
-  <card data-image="https://bilder.buecher.de/produkte/61/61256/61256841n.jpg">
+  <card data-image="{{currentbook.book_img.url}}">
     <!--<h1 slot="header">{Lakes}</h1>-->
     <!--<p slot="content">testauthor</p>-->
   </card>
@@ -46,30 +54,182 @@
 	        	<div id="changeclass2" class="col-md-6">
 	        		<div class="product-dtl">
         				<div class="product-info ">
-		        			<div class="product-name">{{stud.title}}</div>
+		        			<div class="product-name" style="text-align: center">
+								<h1>{{currentbook.title}}</h1>
+							</div>
 
-		        			<div class="product-price-discount"><span>$39.00</span><span class="line-through">$29.00</span></div>
+		        			<div class="product-price-discount"><span><!--39€.00--></span><span class="line-through"><!--$18€.00--></span></div>
 		        		</div>
-	        			<p style="color: black; font-weight: bold;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+	        			<p style="color: black; font-weight: bold;">{{currentbook.description}}</p>
 
-							</form>
-							<a href="#" id='ausleihen' class="round-black-btn" onclick="showalert('✓ {{stud.title}} wurde ausgeliehen',1)">Add to Cart</a>
-							<a href="#" class="round-black-btn" onclick="closealert(1)">Add to Cart</a>
+						<!--<form action="#" method="POST">
+							<a href="?title=harry%20potter&id=3&borrowed=true" type="submit" id='ausleihen'  name="mybtn2" class="round-black-btn" onclick="showalert('✓ {{currentbook.title}} wurde ausgeliehen',1)">{{currentbook.title}}: Band: {{currentbook.part}} ausleihen</a></input>
+						</form>-->
+						   
+{% if showalert == 123 %}
+<div class="alert alert-success mdi mdi-star" style="text-align: center;" role="alert">
+	<strong>Well done!</strong> Du hast Buch XY erfolgreich ausgeliehen!
+	<form action="" method="POST">{% csrf_token %}						
+		<input  type="hidden" class="round-black-btn"  name="buch[]" value="{{currentbook.id}}">
+		<input  type="hidden" class="round-black-btn"  name="buch[]" value="1">
+		<a href=""  style="color:red;" onclick="document.forms[0].submit();return false; ">Rückgängig?</a>
+		</form>
+</div>
+{% endif %}
+
+{% if showalert == 2 %}
+<div class="alert alert-fail mdi mdi-star" role="alert">
+	<strong>Achtung!</strong> Du hast dieses Buch schon ausgeliehen!
+</div>
+{% endif %}
+
+{% if showalert == 3 %}
+<div class="alert alert-fail mdi mdi-star" role="alert">
+	<strong>Achtung!</strong> Ein Fehler ist passiert bitte versuche es später noch einmal
+</div>
+{% endif %}
+
+
+
+{% if showalert == 5 %}
+<div class="alert alert-fail mdi mdi-star" role="alert">
+	<strong>Achtung!</strong> Du hast mind 1 überfälliges Buch. Bitte gebe dies zuerst ab, bevor du ein neues Buch ausleihen möchtest.
+</div>
+{% endif %}
+
+
+
+{% if showalert == 1 %}
+<script type="text/javascript">
+	
+    var alerted = localStorage.getItem('alerted') || '';
+    if (alerted == 'yes') {
+		showalert('test',1,1)
+     localStorage.setItem('alerted','no');
+    }
+	
+</script>
+{% endif %}
+
+{% if showalert == 6 %}
+<script type="text/javascript">
+	
+    var alerted = localStorage.getItem('alerted') || '';
+    if (alerted == 'yes') {
+		showalert('buch konnte nicht ausgeliehen werden',1,1)
+     localStorage.setItem('alerted','no');
+    }
+	
+</script>
+{% endif %}
+
+
+			                 {% for Order in orderdata %}
+							 {% if user.id == Order.users.id %}
+							 {% if Order.books.id == currentbook.id %}
+							 <!-- Anfang - Buch schon ausgeliehen Meldung-->
+							 <h3 style="text-align: center; margin-top: 15px; font-weight:bold">Rückgabe bis: {{Order.return_date}}</h3>
+							 <a href="profilweiterleitung"  class="round-black-btn">Bearbeiten</a></input>
+							 <!-- Ende   - Buch schon ausgeliehen Meldung-->
+							 {% define 1 as counter %}
+							 {% else %}
+							 
+							 {% endif %}
+							 {% endif %}
+							 {% if forloop.last %}
+							 {% if counter != 1 %}
+							    {% if user.is_authenticated %}
+							   		 <form action="#" method="POST">{% csrf_token %}
+										
+										{{form}}						
+									 <input  type="hidden" class="round-black-btn"  name="buch[]" value="{{currentbook.id}}">
+									 <input  type="hidden" class="round-black-btn"  name="buch[]" value="0">
+									 <a href="#" class="round-black-btn" onclick="document.forms[0].submit(); localStorage.setItem('alerted','yes'); return false; ">{{currentbook.title_small}} - Band: {{currentbook.part}} ausleihen1</a>
+									 </form>
+							 		 
+							         {% else %}
+							         <a href="{% url 'login' %}" class="round-black-btn">{{currentbook.title_small}}: Band: {{currentbook.part}} ausleihen</a></input>
+							        
+							         {% endif %}
+								{% define 1 as counter %}
+							 {% else %}	
+							 {% endif %}
+							 {% endif %}
+							 {% empty %}
+						     {% if user.is_authenticated %}
+							 <form action="" method="POST">{% csrf_token %}						
+							 <input  type="hidden" class="round-black-btn"  name="buch[]" value="{{currentbook.id}}">
+							 <input  type="hidden" class="round-black-btn"  name="buch[]" value="0">
+							 <a href="" class="round-black-btn" onclick="document.forms[0].submit();return false; ">{{currentbook.title_small}} - Band: {{currentbook.part}} ausleihen2</a>
+							 </form>
+							 {% else %}
+							 <a href="{% url 'login' %}" class="round-black-btn">{{currentbook.title}}: Band: {{currentbook.part}} ausleihen</a></input>
+							 {% endif %}
+							
+							 {% endfor %}
+
+						 
+							
+
+
+
+
+
+
+
+
+							
 	        		</div>
 	        	</div>
 	        </div>
 	        <div class="product-info-tabs">
-		        <ul class="nav nav-tabs" id="myTab" role="tablist">
-				  	<li class="nav-item">
-				    	<a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
+		        <ul class="nav nav-tabs"id="myTab" role="tablist">
+				  	<li class="nav-item" >
+				    	<a class="nav-link active"style="color:Black; font-weight: bold; background: white;" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Beschreibung</a>
+				  	</li>
+					  <li class="nav-item" >
+				    	<a class="nav-link" style="color:black; font-weight: bold; background: white;" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Details</a>
 				  	</li>
 
 				</ul>
+				
 				<div class="tab-content" id="myTabContent">
-				  	<div class="tab-pane fade show active textstyle" style="color:white;" id="description" role="tabpanel" aria-labelledby="description-tab">
-				  		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
-				  	    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+				  	<div class="tab-pane fade show active" style="color:black;" id="description" role="tabpanel" aria-labelledby="description-tab">
+						<p>{{currentbook.description}}<p>
 					</div>
+
+					<div class="tab-pane fade" style="color:black; font-weight: bold; font-size: 20px;" id="review" role="tabpanel" aria-labelledby="review-tab">
+						<div class="review-heading" style="color:black; margin-bottom: 20px; text-underline-position: under;text-decoration: underline;">
+							Weitere Details zum Buch:
+						</div>
+						<li>Autor: <a href="../?title=&year=&author={{currentbook.book_author}}&isavailable=" style="color: rgb(11, 11, 97); text-decoration: underline; font-weight: bold;">{{currentbook.book_author}}</a></br></li>
+						<li>Seiten: {{currentbook.pages}}</br>	  </li> 
+					    <li>Veröffentlichung: {{currentbook.year}}</br>	</li>
+						<li>Genre: <a href="../?genre={{currentbook.genre}}" style="color: rgb(11, 11, 97); text-decoration: underline; font-weight: bold;">{{currentbook.genre}}</a></br>	</li>
+						<li>Verfügbar: {{currentbook.quantity}} - (Nur für Produktion oder Admin?)</br>	</li>
+						<li>Altersempfehlung: ab {{currentbook.age}} Jahren </br>	</li>
+						<li>Sprache: {{currentbook.language}}</br>	</li>
+						<li>Ausleihdauer: {{currentbook.ausleihtage}} Tage</br>	</li>
+					</br>
+				
+					    </br>
+						{% for Book in all_articels %}
+						{% if currentbook.title_small in Book.title_small %}
+						{% if currentbook.id == Book.id %}
+						{% else %}
+						{% if counter != 1 %}
+						<div class="review-heading" style="color:black; margin-bottom: 20px; text-underline-position: under;text-decoration: underline;">
+							Ähnliche Bücher: 
+						</div>
+						{% endif %}
+						{% define 1 as counter %}
+						<li><a href="?title={{Book.title}}&id={{Book.id}}" style= "color: darkblue;">{{Book.title}}</a></li>
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+							  </div>
+						  </div>
+					
 
 			
     
@@ -85,3 +245,9 @@
   
 </body>
 </html>
+
+<style>  
+	html {
+	visibility: visible;
+		opacity: 1;
+	}</style>

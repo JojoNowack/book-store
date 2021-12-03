@@ -12,5 +12,7 @@ urlpatterns = [
     path('register/', views.register, name='register-site'),
     path('test/', views.test, name='items-site'),
     # the path to the main page 
-    path('about/', views.about, name='about-site')
+    path('about/', views.about, name='about-site'),
+    path('books/', views.about, name='books-site'),
+    path('faq/', views.about, name='faq-site')
 ]

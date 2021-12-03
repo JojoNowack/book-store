@@ -87,26 +87,45 @@
 }
 
 select {
+  margin-top: 10px;
   width: 120px;
   height: 25px;
-  font-size: 15px;
   font-weight: bold;
   padding: 0 10px;
   background-color: transparent;
   color: white;
-  border: 2px solid white;
-  outline: none !important;
+
   -webkit-appearance: none;
-  appearance: none;
-  cursor: pointer;
+  -moz-appearance: none;
+       appearance: none;
+border: 0;
+outline: 0;
+font: inherit;
+/* Personalize */
+width: 15em;
+height: 3em;
+background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center/1.4em, linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2) 3em);
+color: white;
+border-radius: 0.25em;
+box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+cursor: pointer;
 }
 
+
 select option {
-  font-size: 15px;
-  margin: 5px;
+  font-size: 20px;
   outline: none !important;
-  color: black;
   -webkit-appearance: none;
+  color: black;
+  background-color: #D5B1B1;
+  
+}
+
+select:focus {
+  outline: none;
+}
+select::-ms-expand {
+  display: none;
 }
 
 ::placeholder { 
@@ -152,7 +171,7 @@ select option {
 
 
 .container-cadastro.ativo {
-  height: 405px;
+  height: 430px;
   margin: 10px 0 5px;
   opacity: 1;
   padding: 0 0 5px;
@@ -217,7 +236,8 @@ input[type=number]::-webkit-outer-spin-button {
 .container-cadastro-campo label{
  color: white;
  font-weight: bold;
- margin: 10px 5px;
+ margin: 5px 5px;
+ margin-top: 15px;
 }
 
 
@@ -570,12 +590,12 @@ main .title {
     transition: all 1.2s ease-in-out;
     overflow: hidden;
     opacity: 0;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .myalert-success {
 color: green;
-background-color:  rgb(36, 35, 35,40%);
+background-color:  rgb(36, 35, 35,65%);
 border-color:  rgb(36, 35, 35,100%);
 }
 
@@ -599,6 +619,7 @@ body {
   font-weight: 500;
   background-color: #BCAAA4;
   -webkit-font-smoothing: antialiased;
+
 }
 
 .title {
@@ -739,6 +760,21 @@ h1 + p, p + p {
 }
 
 
+
+/* Product Details START */
+/* Copyright (c) 2021 by nguyencaotai1969 (https://codepen.io/nguyencaotai1969/pen/jOWaYXO)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+.nav-link.active,
+  .show > .nav-link {
+    color: black !important ;
+    background-color:#EDBCBF !important;
+  }
 
 
 .pd-wrap {
@@ -940,13 +976,104 @@ h1 + p, p + p {
     margin-top: 20px;
     border: solid 2px #212529; 
     transition: all 0.5s ease-in-out 0s;
+    text-align: center;
 }
 .round-black-btn:hover,
 .round-black-btn:focus {
-	background: transparent;
-	color: #212529;
+	background: white;
 	text-decoration: none;
+  color: black;
+  font-weight: bold;
+  border: solid 3px #212529; 
+  box-shadow: black 0 0 40px 2px;
 }
+
+.round-black2-btn {
+	border-radius: 4px;
+    background: #212529;
+    color: white;
+    padding: 7px 45px;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+    margin-top: 20px;
+    border: solid 3px white; 
+    transition: all 0.5s ease-in-out 0s;
+    font-size: 18px;
+    text-align: center;
+}
+.round-black2-btn:hover,
+.round-black2-btn:focus {
+	background: rgb(20, 51, 20);
+	text-decoration: none;
+  color: white;
+  border: solid 2px white; 
+  box-shadow: black 0 0 40px 2px, black 0 0 0 2px,inset black 0 0 0 2px;
+}
+
+
+.containerProduct {
+  background: transparent;
+  margin-top: 50px;
+  border-radius: 0.2rem;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.8);
+  font-weight: bold;
+  background: linear-gradient( rgba(255, 255, 255,45%), rgba(255, 255, 255, 45%) ); 
+  border-radius: 30px 30px 30px 30px;
+
+
+}
+
+.textstyle{
+  color: red;
+  font-size: 18px;
+  font-family: "Raleway";
+
+}
+
+.textstyle h1{
+  color: rgb(11, 11, 97);
+  font-size: 30px;
+  font-weight: bold;
+
+}
+
+.textstyle h3{
+  color: red;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+
+
+.textstyle p{
+  color: black;
+  font-size: 18px;
+  font-family: "Raleway";
+}
+
+.textstyle a{
+  color: white;
+  font-weight: 100;
+  font-family: "Raleway";
+}
+
+
+
+@media (min-width: 768px)
+{
+.containerProduct {
+    max-width: 720px;
+}
+}
+@media (min-width: 576px)
+{
+.containerProduct {
+    max-width: 540px;
+}
+}
+
+
 
 .product-info-tabs {
 	margin-top: 25px; 
@@ -1010,6 +1137,16 @@ h1 + p, p + p {
 	text-transform: uppercase;
 	cursor: pointer;
 }
+
+/* Product Details END */
+/* Copyright (c) 2021 by nguyencaotai1969 (https://codepen.io/nguyencaotai1969/pen/jOWaYXO)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 
 
 
@@ -1111,9 +1248,4 @@ h1 + p, p + p {
 }
 .xsmall li:last-child a:after {
   content: "";
-}
-
-html {
-  visibility: visible;
-  opacity: 1;
 }
