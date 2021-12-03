@@ -11,6 +11,7 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -134,6 +135,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # please enter the path of the main homepage
 # siehe hier für "account -> urls.py" das attribut 'name' 
@@ -149,3 +151,10 @@ LOGIN_URL = 'login'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'hs.augsburg.book.store@gmail.com'
+EMAIL_HOST_PASSWORD = 'HS-Augsburg-book_store'

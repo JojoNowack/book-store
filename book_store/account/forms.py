@@ -11,16 +11,16 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
 # falls eine Profil-Änderung gebraucht wird:
-# class UserUpdateForm(forms.ModelForm):
-#         email = forms.EmailField()
+class UserUpdateForm(forms.ModelForm):
+        # email = forms.EmailField()
     
-#         class Meta:
-#             model = User
-#             fields = ['username', 'email']
+        class Meta:
+            model = User
+            fields = ['username']
  
-           
-# class ProfileUpdateForm(forms.ModelForm):
-#     class Meta:
-#         model = Profile
-#         fields = ['image']
+# Änderungen für das Profil -> jeder User kann sein Profilbild           
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image']
         

@@ -24,17 +24,17 @@
             </div>
         </div>
         <!--- FORM HERE -->
-        {% comment %} falls eine Profil-Änderung gebraucht wird: <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Profil Überblick:</legend>
-                {{ u_form|crispy }}
-                {{ p_form|crispy }}
+            <fieldset class="form-group" >
+                <legend class="border-bottom mb-4 ">Profil Info</legend>
+                    {{ u_form|crispy }}
+                    {{ p_form|crispy }}
             </fieldset>
             <div class="form-gorup">
-                <button class="btn btn-outline-info" type="submit">Ändern</button>
+                <button class="btn btn-outline-info"  type="submit">Aktualisieren</button>
             </div>
-        </form> {% endcomment %}
+        </form>
     </div>
 {% endblock content %}
 
