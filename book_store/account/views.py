@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 #from .models import Post
 from django.contrib import messages
@@ -5,6 +6,7 @@ from account.forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
 from books.models import Book
 from order.models import Order
+import datetime
 # Create your views here.
 
 def register(request):
@@ -48,12 +50,35 @@ def about(request):
     return render(request, 'account/about.html',{'title':'About'})
 
 #schaut in tabele order und sucht alle einträge zum aktuellen user und listet sie auf -> schickt sie ins html file
+
+@login_required
 def showmybooks(request):
-    all_books = Order.objects.all()
-    if request.user.id is None: #AnonymousUser -> not logged in
-       #TODO: funktioniert noch nicht
-        return render(request, 'account/login.html')
-    my_books =  all_books.filter(users_id=request.user.id)
-    context = {"all_books": my_books}
-    return render(request, 'account/test.html', context=context)
+    if request.method =='POST': #wenn auf einen der buttens gedrückt wurde
+        print(request.POST.getlist('idandisextend[]'))
+        if request.POST.getlist('idandisextend[]')[1] == 'true' : #bedeutet es wurde der verlängern butten gedrückt
+            #order_order return date um 2 wochen verlängern
+            bookid = int(request.POST.getlist('idandisextend[]')[0])
+            allorders = Order.objects.all()
+            filteredorders= allorders.filter(books_id=bookid).filter(users_id=request.user.id) #!!todo unbedingt minus eins wegmachen
+            if len(filteredorders) != 1:
+                raise Exception("len müsste 1 sein sonst vll Fehler in Datenbank?")
+            order = filteredorders[0]
+            order.return_date= order.return_date +datetime.timedelta(weeks=2)
+            order.save(update_fields=['return_date'])
+
+        else: #bedeutet es wurde der stornieren butten gedrückt
+            print("what?")
+        return HttpResponseRedirect('#')
+    else:
+        all_books = Order.objects.all()
+        my_books =  all_books.filter(users_id=request.user.id)
+        context = {"all_books": my_books}
+        return render(request, 'account/test.html', context=context)
+
+
+@login_required
+def extend(request):
+    print(request.method =='POST')
+    print("hurra")
+    return render(request, 'account/login.html')
 

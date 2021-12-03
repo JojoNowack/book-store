@@ -38,8 +38,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       <table class="table tableheader">
         <thead>
         <tr>       
-          <div> 
-          <th>ID</th>
+          <div>
           <th>Titel</th>
           <th>Entliehen</th>
           <th>Rückgabe</th>
@@ -50,9 +49,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <tbody class="textstyle">
             {% for Order in all_books %}
         <tr v-for="product in filteredProducts">
-          <td>
-            <router-link v-bind:to="{name: 'product', params: {product_id: product.id}}" style="font-size: 20px; font-family: 'Raleway'; color: black" >{{forloop.counter }}</router-link>
-          </td>
+
           <td>
             <a href="/books/products/?title={{Order.books.title}}&id={{Order.books.id}}">{{Order.books.title}}</a>
 
@@ -65,13 +62,28 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
           </td>
          
           <td>
-            <div class="btn btn-warning btn-xs" v-bind:to="{name: 'product-edit', params: {product_id: product.id}}" onclick=alert("Verlängen") >Verlängerung</div>
-            <div class="btn btn-warning btn-xs" v-bind:to="{name: 'product-edit', params: {product_id: product.id}}" onclick=alert("Zurückgeben") >Zurückgeben</div>
+            <form action="#" method="post"  > <!--Button für verlängern -->
+             {% csrf_token %}
+              <!-- isextend[book_id, true for verlängern false for stornieren]-->
+              <input  type="hidden" class="round-black-btn"  name="idandisextend[]" value="{{Order.books.id}}"> <!-- isextend[0]-->
+              <input  type="hidden" class="round-black-btn"  name="idandisextend[]" value="true"> <!-- isextend[1]-->
+                <button type="submit" name='buttonforextend' class="btn btn-warning btn-xs" >Verlängern</button>
+            </form>
+            <form action="#" method="post"  > <!--Button für stornieren -->
+             {% csrf_token %}
+              <!-- isextend[book_id, true for verlängern false for stornieren]-->
+              <input  type="hidden" class="round-black-btn"  name="idandisextend[]" value="{{Order.books.id}}"> <!-- isextend[0]-->
+              <input  type="hidden" class="round-black-btn"  name="idandisextend[]" value="false"> <!-- isextend[1]-->
+                <button type="submit" name='buttonforstrono' class="btn btn-warning btn-xs" >Stornieren</button>
+            </form>
+
+
           </td>
           {% endfor %}
         </tr>
         </tbody>
       </table>
+
     </div>
   
   
