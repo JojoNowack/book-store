@@ -27,4 +27,4 @@ class Profile(models.Model):
 # there could be problems if u havent installed 'pillow' 
 # just install it, by downloading it via pip: pip install pillow
     def __str__(self):
-        return f'{self.user.username} Profil'
+        return f'{self.user.username} Profil'  
