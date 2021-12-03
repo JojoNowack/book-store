@@ -1,7 +1,6 @@
 {% comment %} it is the parent template. login and about inherit the characteristica of base {% endcomment %}
 {% load static %}
-   <!---------------------------------------------NAVBAR------------------------------------------------------------------------------->
-  
+
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Playfair+Display:700|Raleway:500.700'><link rel="stylesheet" href="{% static 'account/header.css' %}">
 
@@ -34,7 +33,7 @@
            <li><a href="{% url 'register-site' %}">Register</a></li>
            {% endif %} 
          <li><a href="{% url 'about-site' %}">About</a></li> 
-         <li><a href="#">FAQ</a></li>
+         <li><a href="{% url 'faq-site'%}">FAQ</a></li>
        </ul>
      
      </nav>
@@ -42,4 +41,3 @@
    {% comment %} {% block route %}{% endblock route %}{% endcomment %}
    
    </div>
-       <!---------------------------------------------NAVBAR------------------------------------------------------------------------------->
