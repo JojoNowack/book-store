@@ -83,7 +83,7 @@ def getdetails(request):
             
           if request.method == 'POST':
               # Post methode --> Bestellprozess
-           #print("POST!!!!!!")
+           #print("POST!!!!!")
            BuchID = request.POST.getlist('buch[]')
            buch = Book.objects.get(id=BuchID[0])      
            benutzer = User.objects.get(id=current_user.id)
