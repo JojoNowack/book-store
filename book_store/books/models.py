@@ -7,7 +7,7 @@ class Book(models.Model):
     title = models.CharField(max_length=50)
     title_small = models.CharField(max_length=30)
     description = models.TextField(max_length=2000)
-    year = models.DateTimeField()
+    year = models.DateField()
     book_author = models.CharField(max_length=30)
     isavailable = models.BooleanField()
     quantity = models.IntegerField()
@@ -17,6 +17,8 @@ class Book(models.Model):
     age = models.IntegerField()
     ausleihtage = models.IntegerField()
     language= models.CharField(max_length=20)
+    preview=models.CharField(max_length=200,default=0)
+    totalorders=models.IntegerField()
 
     def __str__(self):
         return self.title

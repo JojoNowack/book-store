@@ -222,7 +222,7 @@ body {
 
 
 /* The navigation bar */
-.navbar2 {
+.navbarmenu {
   overflow: hidden;
   position: sticky !important; /* Set the navbar to fixed position */
   top: 0; /* Position the navbar at the top of the page */
@@ -234,7 +234,7 @@ body {
 }
 
 /* Links inside the navbar */
-.navbar2 a {
+.navbarmenu a {
   color: black;
   text-align: center;
   padding: 14px 16px;
@@ -243,11 +243,11 @@ body {
    margin-left: 9px !important;
 }
 
-.navbar2 a:hover { 
+.navbarmenu a:hover { 
   color: #000000;
 }
 
-.navbar2 h1 {
+.navbarmenu h1 {
   color: #000;
   float: left;
   text-align: center;

@@ -132,16 +132,20 @@
 <h1 class="title">Wähle dein Buch</h1>
 <div id="app" class="containercards">
   {% if books_page_obj %}
-    {% for Book in books_page_obj|dictsort:"title" %}
-    <a href="products?title={{Book.title_small.lower}}&id={{Book.id}}">
+    {% for Book in books_page_obj|dictsortreversed:"totalorders" %}
+    {% if Book.title == '404' %}
+    {% else %}
+    <a href="products?title={{Book.title.lower}}&id={{Book.id}}">
     <card data-image="{{Book.book_img.url}}">
     <h1 slot="header">{{Book.title_small}}</h1>
     <p slot="content">{{Book.book_author}}</p>
+    
           {% if Book.isavailable %}
     
     
           {% else %} <!---- Else    if all_articels  ----->
           <h2 slot="content">NICHT VERFÜGBAR</h2>
+          {% endif %}
           {% endif %} <!---- End    if XY in articles.title  ---->
     </card>
     </a>
@@ -159,9 +163,9 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
 
-
+{% if books_page_obj.paginator.num_pages == 1 %}
+{% else %}
 <div class="containerpagination xsmall">
-
 <div class="pagination">
   {% if books_page_obj.has_previous %}
   <li><a href="{% relative_url books_page_obj.previous_page_number 'page' request.GET.urlencode %}"slot="content">ZURÜCK</a></li>
@@ -172,19 +176,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   {% if books_page_obj.has_next %}
   <li><a href="{% relative_url books_page_obj.next_page_number 'page' request.GET.urlencode %}" slot="content">WEITER</a></li>
   {% else %}
-  <li><a href="{% relative_url 1 'page' request.GET.urlencode %}"slot="content">SEITE 1</a></li>
+  <li><a href="{% relative_url 1 'page' request.GET.urlencode %}"slot="content">ZURÜCK ZU SEITE 1</a></li>
   {% endif %}
 </div>
 </div>
 </div>
-
+{% endif %}
 
 
 
 <!-- PAGINATION END ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
   {% else %}
   <a href="">
-    <card data-image="https://pixabay.com/get/g66dfbcfa607ee706626a93efc23470ebdd74fada04973735fb1ca320313299a1cf088fe5e9276e333b4f6408cf01c7d239d1206ac27bafd7efe5fa98b4f11f70_1280.png">
+    <card data-image="{% static 'books/images/404_book.png' %}">
       <h1 slot="header">404</h1>
       <p slot="content">Book not found</p>
     </card>

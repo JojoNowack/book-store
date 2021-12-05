@@ -178,7 +178,12 @@ select::-ms-expand {
   transition: all 1.2s ease-in-out;
 }
 
+fieldset {
 
+  border-radius: 5px;
+  padding: 0 10px 10px;
+  position: absolute;
+}
 
 legend {
   margin: 0 auto;
@@ -205,7 +210,16 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
+.container-cadastro-campo input:focus, input:active, input:hover {
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-clip: padding-box;
+    border: 3px solid #17a2b8;
+    border-radius: 0.25rem;
+    transition: border-color 0.5s ease-in-out,box-shadow 0.5s ease-in-out;
 
+}
 
 
 .container-cadastro-campo {
@@ -216,19 +230,6 @@ input[type=number]::-webkit-outer-spin-button {
   text-align: center;
   
 }
-
-.container-cadastro-campo input:focus, .container-cadastro-campo input:hover,.container-cadastro-campo input:active {
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  background-clip: padding-box;
-  border: 3px solid #17a2b8;
-  border-radius: 0.25rem;
-  transition: border-color 0.5s ease-in-out,box-shadow 0.5s ease-in-out;
-
-}
-
-
 
 
 
@@ -538,7 +539,7 @@ main .title {
 
 
 /* The navigation bar */
-.navbarmenu {
+.navbar {
   overflow: hidden;
   position: fixed !important; /* Set the navbar to fixed position */
   top: 0; /* Position the navbar at the top of the page */
@@ -550,22 +551,23 @@ main .title {
 }
 
 /* Links inside the navbar */
-.navbarmenu a {
+.navbar a {
   color: black;
   text-align: center;
+  padding: 14px 16px;
   text-decoration: none !important;
   text-decoration:underline;
 }
 
-.navbarmenu a:hover { 
+.navbar a:hover { 
   color: #000000;
 }
 
-.navbarmenu h1 {
+.navbar h1 {
   color: #000;
   float: left;
   text-align: center;
-  padding: 20px 30px !important;
+  padding: 14px 16px;
   font-family: "Raleway";
   font-weight: bold;
   font-size: 24px;
@@ -576,7 +578,7 @@ main .title {
 .myalert.aktiv {
   opacity: 1;
   padding: 20px 50px 20px;
-  transition: all 0.7s ease-in-out;
+  transition: all 1.2s ease-in-out;
   
   }
 
@@ -585,71 +587,20 @@ main .title {
     border: 1px solid transparent;
     border-radius: 0.25rem;
     text-align: center;    
-    transition: all 0.7s ease-in-out;
+    transition: all 1.2s ease-in-out;
     overflow: hidden;
     opacity: 0;
     font-size: 20px;
 }
 
 .myalert-success {
-color: white;
-font-weight: bold;
-background-color:  rgb(36, 35, 35,75%);
+color: green;
+background-color:  rgb(36, 35, 35,65%);
 border-color:  rgb(36, 35, 35,100%);
 }
 
-.myalert-failed {
-  color: white;
-  font-weight: bold;
-  background-color:  rgb(36, 35, 35,75%);
-  border-color:  rgb(36, 35, 35,100%);
-  }
-
-  .myalert-failed h1{
-    color: red;
-    font-weight: bold;
-    }
-.myalert-info {
-      color: white;
-      font-weight: bold;
-      background-color:  rgb(36, 35, 35,75%);
-      border-color:  rgb(36, 35, 35,100%);
-      }
-    
-.myalert-info h1{
-        color: orange;
-        font-weight: bold;
-        }
-.myalert-maxbooks {
-          color: white;
-          font-weight: bold;
-          background-color:  rgb(36, 35, 35,75%);
-          border-color:  rgb(36, 35, 35,100%);
-          }
-        
-.myalert-maxbooks h1{
-            color: orange;
-            font-weight: bold;
-            }
-
-.myalert a {
-  color: white;
-  font-weight: bold;
-  text-decoration: underline;
-  }
-
-  .myalert-success h1 {
-    color: green;
-    font-weight: bold;
-    }
-
 .myalert strong{
 font-weight: bolder;
-}
-
-.disabled {
-  pointer-events: none;
-  cursor: default;
 }
 
 body {
@@ -693,32 +644,6 @@ h1 + p, p + p {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
-
-.container123{
-  display:flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.centertext{
-
-
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  vertical-align:middle;
-  width: 500px;
-
-}
-
-
-
-.textlogin{
-  color: white;
-  font-weight: bold;
 }
 
 .productcards{
@@ -1097,24 +1022,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   border-radius: 30px 30px 30px 30px;
 
 
-
-
-}
-
-.containerlogin {
-  background: transparent;
-  margin-top: 50px;
-  width: 120%;
-  text-align: center;
-  border-radius: 0.2rem;
-  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.8);
-  font-weight: bold;
-  background: linear-gradient( rgba(255, 255, 255,45%), rgba(255, 255, 255, 45%) ); 
-  border-radius: 30px 30px 30px 30px;
-
-
-
-
 }
 
 .textstyle{
@@ -1124,7 +1031,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 }
 
-
 .textstyle h1{
   color: rgb(11, 11, 97);
   font-size: 30px;
@@ -1132,15 +1038,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 }
 
-.textstyle strong{
-  color: rgb(112, 11, 11);
-  font-size: 26px;
-  font-weight: bold;
-
-}
-
 .textstyle h3{
-  color: black;
+  color: red;
   font-size: 23px;
   font-weight: bold;
 }
@@ -1151,7 +1050,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   color: black;
   font-size: 18px;
   font-family: "Raleway";
-  text-align: center;
 }
 
 .textstyle a{
@@ -1351,5 +1249,3 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .xsmall li:last-child a:after {
   content: "";
 }
-
-

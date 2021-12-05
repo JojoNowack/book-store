@@ -10,8 +10,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Order(models.Model):
-    borrow_date = models.DateTimeField()
-    return_date = models.DateTimeField()
+    borrow_date = models.DateField()
+    return_date = models.DateField()
     books = models.ForeignKey(Book, on_delete=CASCADE)
     users = models.ForeignKey(User, on_delete=CASCADE)
     book_borrowed = models.BooleanField()

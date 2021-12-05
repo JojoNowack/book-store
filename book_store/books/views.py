@@ -40,134 +40,140 @@ def getdetails(request):
        
        def protected_path(request):
             print("ERROR CSRF_PROTECT IN BOOKS.VIEWS.PY")
-      
+       
        current_user = request.user
        showalert = 0 
-       # ToDo 
-       # [x]Schauen ob man über der Zeit liegt
-       # [x]ausleihdatum < datetime.today()
-       # []Mehr als 3 Bücher ausgeliehen? --> Trigger?
-       # [x]neue Funktion?
-       # [x]evtl ausleihen rückgängig?
-       # [X]abgeholt value?
-       # [x]for all books loop
-       # [x]save
-       # [x]Timezone support
-       # []Abgebe überschritten und Datum richtig anzeigen
-       # []bei zurück Post nicht nochmal senden?
-       # [x]user muss eingelogt werden
+       
             
        try:   
           
           if request.method == 'GET':
-             
-                print("GETTTT!!")
-                id2 = request.GET['status']
+             #Get Methode für das reine anzeigen der Bücher
+                #print("GETTTT!!")
+                try:
+                    status = request.GET['status'] 
+                    orderdata = Order.objects.all()
+                    template = loader.get_template('products.html')
+                    id = request.GET['id']          
+                    currentbook = Book.objects.get(id=id)
+                    all_articels = Book.objects.all()
+                    context = {"currentbook": currentbook,"all_articels":all_articels,"showalert":showalert,"orderdata":orderdata,"status": status}     
+                    return HttpResponse(template.render(context,request))
+                except:
+                   {}
+                try:
+                    
+                    orderdata = Order.objects.all()
+                    template = loader.get_template('products.html')
+                    id = request.GET['id']          
+                    currentbook = Book.objects.get(id=id)
+                    all_articels = Book.objects.all()
+                    context = {"currentbook": currentbook,"all_articels":all_articels,"showalert":showalert,"orderdata":orderdata}     
+                    return HttpResponse(template.render(context,request))
+                except Exception as e:
+                    #Buch wurde nicht gefunden und Buch mit ID 1 wird stattdessen ausgegeben
+                    logger = logging.Logger('catch_all')
+                    logger.error(bcolors.FAIL +'WARNUNG: '+ str(e) + bcolors.ENDC)
+                    id = 1 # 404 Book
+                    currentbook = Book.objects.get(id=id)
+                    all_articels = Book.objects.all()
+                    context = {"currentbook": currentbook,"all_articels":all_articels}
+                    print(bcolors.WARNING +"ACHTUNG: Fehler in books.views(getdetails) - Buch wurde nicht gefunden - Buch mit ID: "+ str(id) +" - "+ str(currentbook) +" wurde ausgegeben"+  bcolors.ENDC)
+                    return HttpResponse(template.render(context,request))
             
           if request.method == 'POST':
-           print("POST!!!!!!")
-           print(bcolors.HEADER + "STARTING" + bcolors.ENDC)
+              # Post methode --> Bestellprozess
+           #print("POST!!!!!!")
            BuchID = request.POST.getlist('buch[]')
-           buch = Book.objects.get(id=BuchID[0])
-           if BuchID[1] == '1':
-              print("Rückgabe!") 
-              #zurückgeben(current_user.id,BuchID[0])
-              #showalert = 4
-              #return HttpResponseRedirect('?title=harry%20potter&id=4#')
+           buch = Book.objects.get(id=BuchID[0])      
+           benutzer = User.objects.get(id=current_user.id)
+           order_from_user = Order.objects.filter(users=current_user.id)
+           ids    = order_from_user.values_list('books', flat=True)
+           all_borrowdates_from_user = order_from_user.values_list('return_date', flat=True)
+           user_has_borrowed = order_from_user.values_list('book_borrowed', flat=True)
+
+           if(book_over_time(all_borrowdates_from_user,current_user.id,user_has_borrowed) == False):
+                 return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=4')
+                 #Fehler--> Abgabe überschritten
            else:
-              #BuchID = request.POST['buch']
-              buch = Book.objects.get(id=BuchID[0])         
-              #print(test1)
-              benutzer = User.objects.get(id=current_user.id)
-              #print(test2)
-              order_from_user = Order.objects.filter(users=current_user.id)
-              ids    = order_from_user.values_list('books', flat=True)
-              all_borrowdates_from_user = order_from_user.values_list('return_date', flat=True)
-              user_has_borrowed = order_from_user.values_list('book_borrowed', flat=True)
-              #print(all_borrowdates_from_user)
-              if(book_over_time(all_borrowdates_from_user,current_user.id,user_has_borrowed) == False):
-                 showalert = 5
-              else:
-                #print(list(ids))
-                #print(BuchID)
                 if int(BuchID[0]) in ids: #Buch wurde schon ausgeliehen
                   print(bcolors.WARNING +"WARNUNG: User: "+ str(benutzer) + " wollte Buch: "+ str(buch) + " ein weiteres mal ausleihen!" + bcolors.ENDC)
-                  showalert = 2
+                  return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id))
+                  #Fehler Benutzer versucht das gleiche Buch nochmal auszuleihen
                 else: #Buch ausleihen
-                  
+                  if(countmaxbooks(request)):
+                      print(bcolors.WARNING+ "ACHTUNG: Benutzer mit ID: "+ str(current_user) + " hat die maximale Anzahl an Büchern erreicht!"+ bcolors.ENDC)
+                      return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=5')               
                   if(buch.isavailable):
-                   currentDate = datetime.today()
-                   currentDate_timezone = timezone.make_aware(currentDate)
+                   currentDate = date.today()
+                   #currentDate_timezone = timezone.make_aware(currentDate)
                    #print( "We are the {:%d, %b %Y}".format(current_date_and_time))
-                   returnDate = currentDate_timezone + timedelta(days=buch.ausleihtage)
-                   o = Order.objects.create(books=buch,users=benutzer,borrow_date=currentDate_timezone,return_date=returnDate,book_borrowed=False)
+                   returnDate = currentDate + timedelta(days=buch.ausleihtage)
+                   o = Order.objects.create(books=buch,users=benutzer,borrow_date=currentDate,return_date=returnDate,book_borrowed=False)
                    o.save()
                    showalert = 1  
                    print(bcolors.OKGREEN +"Buch ID: " + str(BuchID[0]) +" wurde von ID: " +str(current_user.id)+" ausgeliehen"+ bcolors.ENDC)
-                   return HttpResponseRedirect('?title='+buch.title_small+'&id='+str(buch.id)+'&status=success')
+                   return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=success')
+                   #Buch erfolgreich ausgeliehen
                   else:
                    showalert = 6
                    print(bcolors.OKGREEN +"Buch ID: " + str(BuchID[0]) +" konnte nicht " +str(current_user.id)+" ausgeliehen - Kein Buch vorhanden!"+ bcolors.ENDC)
-                   #weiterleitung mit success = true statt showallert
-                   return HttpResponseRedirect('?title='+buch.title_small+'&id='+str(buch.id)+'&status=failed')
-          orderdata = Order.objects.all()
-          template = loader.get_template('products.html')
-          id = request.GET['id']          
-          currentbook = Book.objects.get(id=id)
-          all_articels = Book.objects.all()
-          context = {"currentbook": currentbook,"all_articels":all_articels,"showalert":showalert,"orderdata":orderdata}     
-          return HttpResponse(template.render(context,request))
+                   #Buch nicht vorhanden
+                   return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=failed')
+
 
        except Exception as e:
-           
-
-
+           #Unerwarteter Fehler im Gesamten Bestellprozess
            logger = logging.Logger('catch_all') # POST
            print(bcolors.FAIL +"WARNUNG: Der Ausleihprozess konnte nicht abgeschlossen werden!" +  bcolors.ENDC)
            logger.error(bcolors.FAIL +'WARNUNG: '+ str(e) + bcolors.ENDC)
            PrintException()
            showalert = 3
-       try:
-          orderdata = Order.objects.all()
-          template = loader.get_template('products.html')
-          id = request.GET['id']         
-          currentbook = Book.objects.get(id=id)
-          all_articels = Book.objects.all()
+           return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=error')
 
-          context = {"currentbook": currentbook,"all_articels":all_articels,"showalert":showalert,"orderdata":orderdata}
-          return HttpResponse(template.render(context,request))
-       except Exception as e:
-          logger = logging.Logger('catch_all')
-          logger.error(bcolors.FAIL +'WARNUNG: '+ str(e) + bcolors.ENDC)
-          id = 1 # 404 Book
-          currentbook = Book.objects.get(id=id)
-          all_articels = Book.objects.all()
-          context = {"currentbook": currentbook,"all_articels":all_articels}
-          print(bcolors.WARNING +"ACHTUNG: Fehler in books.views(getdetails) - Buch wurde nicht gefunden - Buch mit ID: "+ str(id) +" - "+ str(currentbook) +" wurde ausgegeben"+  bcolors.ENDC)
-          return HttpResponse(template.render(context,request))
+
+def countmaxbooks(request):
+    current_user = request.user
+    test = Order.objects.filter(users=current_user)
+    x = len(test)
+    if x >= 10:
+      return True
+    else:
+     return False
 
 def cancelproduct(request):
-    #Todo only if book isnt borrowed
+    #Buch zurückgeben, checkt ob man das Buch auch wirklich ausgeliehen hat --> book_borrowed = true
     current_user = request.user
     bookID = request.GET['bookID']
     buch = Book.objects.get(id=bookID)
-    zurückgeben(current_user,bookID)
+    try:
+     #Todo only if book isnt borrowed
+    
+     orderbook = Order.objects.filter(users=current_user,books=bookID)
+     if(orderbook[0].book_borrowed):
+         {}
+     else:
+      zurückgeben(current_user,bookID)
+      return HttpResponseRedirect('../?title='+buch.title+'&id='+bookID)
+    except:
+      return HttpResponseRedirect('../?title='+buch.title+'&id='+bookID)
     return HttpResponseRedirect('../?title='+buch.title+'&id='+bookID)
 
 def book_over_time(borrowdates,current_user,user_has_borrowed):
     for i in range(len(borrowdates)):
        #date_time_obj = datetime.strptime(str(borrowdates[i]),'%y/%m/%d %H:%M:%S')
-       currentDate = datetime.today()
-       currentDate_timezone = timezone.make_aware(currentDate)
-       if currentDate_timezone <= borrowdates[i]:
-          print("")
+       currentDate = date.today()
+       #currentDate_timezone = timezone.make_aware(currentDate)
+       #print(currentDate_timezone)
+       if currentDate <= borrowdates[i]:
+          {}
        else:
-          print(bcolors.WARNING+ "ACHTUNG: Abgabe wurde überschritten, Benutzer mit ID: "+ str(current_user) + " kann keine weiteren Bücher mehr ausleihen!"+ bcolors.ENDC)
-          # ist das buch überhaupt abgeholt worden --> borrowed_book auf 1?
-          if ( user_has_borrowed[i] == False):
-            return True
-          else:
-            return False
+            # ist das buch überhaupt abgeholt worden --> borrowed_book auf True?
+            if ( user_has_borrowed[i] == False):
+              return True
+            else:
+              print(bcolors.WARNING+ "ACHTUNG: Abgabe wurde überschritten, Benutzer mit ID: "+ str(current_user) + " kann keine weiteren Bücher mehr ausleihen!"+ bcolors.ENDC)
+              return False
     return True
 
 def PrintException():

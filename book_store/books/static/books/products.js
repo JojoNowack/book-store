@@ -46,21 +46,37 @@ function sleep(ms) {
   
   
   async function showalert(msg,id,bookid) {
-    await sleep(500);
-    if (  alertopened === true){
-      closealert(id);
-      await sleep(1200);
-      showalert(msg,id,bookid);
-    }
-      else{
+   
+
     if (id === 1){
-    var div = document.getElementById('customalert');
-    div.innerHTML = "<br>"+ alertopened + "<br>"   +"<a href='cancel/?bookID="+bookid+"'>Test</a>";
+     var div = document.getElementById('customalert');
+    div.innerHTML = "<h1>✓ </h1>"+msg + "<br>"   +"<a href='cancel/?bookID="+bookid+"'>Rückgängig?</a>";
+    await sleep(600);
     document.querySelector('.myalert-success').classList.add('aktiv')
-    alertopened = true;
+
     }
+    if (id === 2){
+      var div = document.getElementById('customalertfailed');
+      div.innerHTML = "<h1>X </h1>"+msg + " ist zurzeit nicht vorhanden!";
+      await sleep(600);
+      document.querySelector('.myalert-failed').classList.add('aktiv')
+ 
+      }
+      if (id === 4){
+        var div = document.getElementById('customalert4');
+        div.innerHTML = "<h1>! </h1>" + " Sie haben Ihre Bücherabgaben nicht eingehalten, bitte verlängern Sie "+"<a href=''>hier</a>"+" Ihre Bücher oder geben Sie diese bitte zum nächstmöglichen Termin ab";
+        await sleep(600);
+        document.querySelector('.myalert-info').classList.add('aktiv')
+   
+        }
+        if (id === 5){
+          var div = document.getElementById('customalert5');
+          div.innerHTML = "<h1>! </h1>" + " Sie haben Ihre maximale Anzahl an Büchern, die Sie ausleihen können erreicht.";
+          await sleep(600);
+          document.querySelector('.myalert-maxbooks').classList.add('aktiv')
+          }
   }
-  }
+  
   
   function closealert(id) {
     if (id === 1){

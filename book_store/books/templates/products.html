@@ -60,12 +60,12 @@
 
 		        			<div class="product-price-discount"><span><!--39€.00--></span><span class="line-through"><!--$18€.00--></span></div>
 		        		</div>
-	        			<p style="color: black; font-weight: bold;">{{currentbook.description}}</p>
+	        			<p>{{currentbook.description}}</p>
 
 						<!--<form action="#" method="POST">
 							<a href="?title=harry%20potter&id=3&borrowed=true" type="submit" id='ausleihen'  name="mybtn2" class="round-black-btn" onclick="showalert('✓ {{currentbook.title}} wurde ausgeliehen',1)">{{currentbook.title}}: Band: {{currentbook.part}} ausleihen</a></input>
 						</form>-->
-						   
+<!--				   
 {% if showalert == 123 %}
 <div class="alert alert-success mdi mdi-star" style="text-align: center;" role="alert">
 	<strong>Well done!</strong> Du hast Buch XY erfolgreich ausgeliehen!
@@ -82,54 +82,31 @@
 	<strong>Achtung!</strong> Du hast dieses Buch schon ausgeliehen!
 </div>
 {% endif %}
+-->	
 
-{% if showalert == 3 %}
-<div class="alert alert-fail mdi mdi-star" role="alert">
-	<strong>Achtung!</strong> Ein Fehler ist passiert bitte versuche es später noch einmal
+{% if currentbook.isavailable == False %}
+<div class="alert alert-fail mdi mdi-star" style="text-align: center;" role="alert">
+	{% for Order in orderdata|dictsort:"return_date" %}
+	{% if Order.books.id == currentbook.id %}
+	{% if forloop.first %}
+	<strong>Zurzeit nicht Verfügbar! - vorraussichtlich verfügbar ab</strong>
+	<h1 style = "margin-top: 10px;">{{Order.return_date}}</h1>
+	{% endif %}
+	{% endif %}
+	{% endfor %}
 </div>
 {% endif %}
 
 
 
-{% if showalert == 5 %}
-<div class="alert alert-fail mdi mdi-star" role="alert">
-	<strong>Achtung!</strong> Du hast mind 1 überfälliges Buch. Bitte gebe dies zuerst ab, bevor du ein neues Buch ausleihen möchtest.
-</div>
-{% endif %}
-
-
-
-{% if showalert == 1 %}
-<script type="text/javascript">
-	
-    var alerted = localStorage.getItem('alerted') || '';
-    if (alerted == 'yes') {
-		showalert('test',1,1)
-     localStorage.setItem('alerted','no');
-    }
-	
-</script>
-{% endif %}
-
-{% if showalert == 6 %}
-<script type="text/javascript">
-	
-    var alerted = localStorage.getItem('alerted') || '';
-    if (alerted == 'yes') {
-		showalert('buch konnte nicht ausgeliehen werden',1,1)
-     localStorage.setItem('alerted','no');
-    }
-	
-</script>
-{% endif %}
 
 
 			                 {% for Order in orderdata %}
 							 {% if user.id == Order.users.id %}
 							 {% if Order.books.id == currentbook.id %}
-							 <!-- Anfang - Buch schon ausgeliehen Meldung-->
-							 <h3 style="text-align: center; margin-top: 15px; font-weight:bold">Rückgabe bis: {{Order.return_date}}</h3>
-							 <a href="profilweiterleitung"  class="round-black-btn">Bearbeiten</a></input>
+							 <!-- Anfang - Buch schon ausgeliehen Meldung-->		 
+							 <a href="profilweiterleitung"  class="round-black-btn">Bearbeiten - Rückgabe: {{Order.return_date}}</a></input>
+							 <!--<h3 style="text-align: center; margin-top: 15px; font-weight:bold">Rückgabe bis zum: {{Order.return_date}}</h3>-->
 							 <!-- Ende   - Buch schon ausgeliehen Meldung-->
 							 {% define 1 as counter %}
 							 {% else %}
@@ -143,8 +120,8 @@
 										
 										{{form}}						
 									 <input  type="hidden" class="round-black-btn"  name="buch[]" value="{{currentbook.id}}">
-									 <input  type="hidden" class="round-black-btn"  name="buch[]" value="0">
-									 <a href="#" class="round-black-btn" onclick="document.forms[0].submit(); localStorage.setItem('alerted','yes'); return false; ">{{currentbook.title_small}} - Band: {{currentbook.part}} ausleihen1</a>
+									  <!--<input  type="hidden" class="round-black-btn"  name="buch[]" value="0">-->
+									 <a href="#" class="round-black-btn" onclick="document.forms[0].submit(); localStorage.setItem('alerted','yes'); return false; ">{{currentbook.title_small}} - Band: {{currentbook.part}} ausleihen</a>
 									 </form>
 							 		 
 							         {% else %}
@@ -159,8 +136,8 @@
 						     {% if user.is_authenticated %}
 							 <form action="" method="POST">{% csrf_token %}						
 							 <input  type="hidden" class="round-black-btn"  name="buch[]" value="{{currentbook.id}}">
-							 <input  type="hidden" class="round-black-btn"  name="buch[]" value="0">
-							 <a href="" class="round-black-btn" onclick="document.forms[0].submit();return false; ">{{currentbook.title_small}} - Band: {{currentbook.part}} ausleihen2</a>
+							 <!--<input  type="hidden" class="round-black-btn"  name="buch[]" value="0">-->
+							 <a href="" class="round-black-btn" onclick="document.forms[0].submit(); localStorage.setItem('alerted','yes');return false; ">{{currentbook.title_small}} - Band: {{currentbook.part}} ausleihen</a>
 							 </form>
 							 {% else %}
 							 <a href="{% url 'login' %}" class="round-black-btn">{{currentbook.title}}: Band: {{currentbook.part}} ausleihen</a></input>
@@ -184,25 +161,42 @@
 	        </div>
 	        <div class="product-info-tabs">
 		        <ul class="nav nav-tabs"id="myTab" role="tablist">
+					<li class="nav-item" >
+				    	<a class="nav-link active" style="color:black; font-weight: bold; background: white;" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="true">Details</a>
+				  	</li>
 				  	<li class="nav-item" >
-				    	<a class="nav-link active"style="color:Black; font-weight: bold; background: white;" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Beschreibung</a>
+						  
+				    	<a class="nav-link"style="color:Black; font-weight: bold; background: white;" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">Vorschau</a>
+						  
 				  	</li>
 					  <li class="nav-item" >
-				    	<a class="nav-link" style="color:black; font-weight: bold; background: white;" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Details</a>
+				    	<a class="nav-link"style="color:Black; font-weight: bold; background: white;" id="commonbooks-tab" data-toggle="tab" href="#commonbooks" role="tab" aria-controls="commonbooks" aria-selected="false">Ähnliche</a>
 				  	</li>
+					
 
 				</ul>
 				
 				<div class="tab-content" id="myTabContent">
-				  	<div class="tab-pane fade show active" style="color:black;" id="description" role="tabpanel" aria-labelledby="description-tab">
+				  	<div class="tab-pane fade" style="color:black;" id="description" role="tabpanel" aria-labelledby="description-tab">
+						<div class="review-heading" style="color:black; margin-bottom: 20px; text-underline-position: under;text-decoration: underline;">
+							Vorschau:
+						</div>
 						<p>{{currentbook.description}}<p>
+							{% if currentbook.preview == '0' %}
+							
+							{% else %}
+							<a href="{{currentbook.preview}}" target="_blank" rel="noopener noreferrer" class="round-black-btn">Vorschau</a>
+							{% endif %}
+
 					</div>
 
-					<div class="tab-pane fade" style="color:black; font-weight: bold; font-size: 20px;" id="review" role="tabpanel" aria-labelledby="review-tab">
+					<div class="tab-pane fade show active" style="color:black; font-weight: bold; font-size: 20px;" id="review" role="tabpanel" aria-labelledby="review-tab">
 						<div class="review-heading" style="color:black; margin-bottom: 20px; text-underline-position: under;text-decoration: underline;">
 							Weitere Details zum Buch:
 						</div>
+						
 						<li>Autor: <a href="../?title=&year=&author={{currentbook.book_author}}&isavailable=" style="color: rgb(11, 11, 97); text-decoration: underline; font-weight: bold;">{{currentbook.book_author}}</a></br></li>
+						<li>Band: {{currentbook.part}}</br>	  </li> 
 						<li>Seiten: {{currentbook.pages}}</br>	  </li> 
 					    <li>Veröffentlichung: {{currentbook.year}}</br>	</li>
 						<li>Genre: <a href="../?genre={{currentbook.genre}}" style="color: rgb(11, 11, 97); text-decoration: underline; font-weight: bold;">{{currentbook.genre}}</a></br>	</li>
@@ -212,23 +206,31 @@
 						<li>Ausleihdauer: {{currentbook.ausleihtage}} Tage</br>	</li>
 					</br>
 				
-					    </br>
-						{% for Book in all_articels %}
-						{% if currentbook.title_small in Book.title_small %}
-						{% if currentbook.id == Book.id %}
-						{% else %}
-						{% if counter != 1 %}
-						<div class="review-heading" style="color:black; margin-bottom: 20px; text-underline-position: under;text-decoration: underline;">
-							Ähnliche Bücher: 
-						</div>
-						{% endif %}
-						{% define 1 as counter %}
-						<li><a href="?title={{Book.title}}&id={{Book.id}}" style= "color: darkblue;">{{Book.title}}</a></li>
-						{% endif %}
-						{% endif %}
-						{% endfor %}
+					   
 							  </div>
-						  </div>
+						 
+
+						  <div class="tab-pane fade" style="color:black; font-weight: bold; font-size: 20px;" id="commonbooks" role="tabpanel" aria-labelledby="commonbooks-tab">
+							<div class="review-heading" style="color:black; margin-bottom: 20px; text-underline-position: under;text-decoration: underline;">
+								Ähnliche Bücher:
+							</div>
+						
+					
+							</br>
+							{% for Book in all_articels %}
+							{% if currentbook.title_small in Book.title_small %}
+							{% if currentbook.id == Book.id %}
+							{% else %}
+						
+							<li><a href="?title={{Book.title}}&id={{Book.id}}" style= "color: darkblue;">{{Book.title}}</a></li>
+							{% endif %}
+							{% endif %}
+							{% endfor %}
+								  </div>
+							  </div>
+
+
+
 					
 
 			
@@ -245,6 +247,56 @@
   
 </body>
 </html>
+
+
+
+{% if status == 'success' %}
+<script type="text/javascript">
+	
+    var alerted = localStorage.getItem('alerted') || '';
+    if (alerted == 'yes') {
+		showalert('Du hast das Buch: {{currentbook}} ausgeliehen',1,"{{currentbook.id}}")
+     localStorage.setItem('alerted','no');
+    }
+	
+</script>
+{% endif %}
+
+{% if status == 'failed' %}
+<script type="text/javascript">
+	
+    var alerted = localStorage.getItem('alerted') || '';
+    if (alerted == 'yes') {
+		showalert('{{currentbook}}',2,"{{currentbook.id}}")
+     localStorage.setItem('alerted','no');
+    }
+	
+</script>
+{% endif %}
+
+{% if status == '4' %}
+<script type="text/javascript">
+	
+    var alerted = localStorage.getItem('alerted') || '';
+    if (alerted == 'yes') {
+		showalert('{{currentbook}}',4,"{{currentbook.id}}")
+     localStorage.setItem('alerted','no');
+    }
+	
+</script>
+{% endif %}
+
+{% if status == '5' %}
+<script type="text/javascript">
+	
+    var alerted = localStorage.getItem('alerted') || '';
+    if (alerted == 'yes') {
+		showalert('{{currentbook}}',5,"{{currentbook.id}}")
+     localStorage.setItem('alerted','no');
+    }
+	
+</script>
+{% endif %}
 
 <style>  
 	html {
