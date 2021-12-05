@@ -170,7 +170,7 @@
 						  
 				  	</li>
 					  <li class="nav-item" >
-				    	<a class="nav-link"style="color:Black; font-weight: bold; background: white;" id="commonbooks-tab" data-toggle="tab" href="#commonbooks" role="tab" aria-controls="commonbooks" aria-selected="false">Ähnliche</a>
+				    	<a class="nav-link"style="color:Black; font-weight: bold; background: white;" id="commonbooks-tab" data-toggle="tab" href="#commonbooks" role="tab" aria-controls="commonbooks" aria-selected="false">Ähnliche Bücher</a>
 				  	</li>
 					
 
@@ -194,7 +194,7 @@
 						<div class="review-heading" style="color:black; margin-bottom: 20px; text-underline-position: under;text-decoration: underline;">
 							Weitere Details zum Buch:
 						</div>
-						
+						<ul>
 						<li>Autor: <a href="../?title=&year=&author={{currentbook.book_author}}&isavailable=" style="color: rgb(11, 11, 97); text-decoration: underline; font-weight: bold;">{{currentbook.book_author}}</a></br></li>
 						<li>Band: {{currentbook.part}}</br>	  </li> 
 						<li>Seiten: {{currentbook.pages}}</br>	  </li> 
@@ -204,6 +204,7 @@
 						<li>Altersempfehlung: ab {{currentbook.age}} Jahren </br>	</li>
 						<li>Sprache: {{currentbook.language}}</br>	</li>
 						<li>Ausleihdauer: {{currentbook.ausleihtage}} Tage</br>	</li>
+					</ul>
 					</br>
 				
 					   
@@ -217,15 +218,26 @@
 						
 					
 							</br>
+							<div class="commonbooks">
+								<ul>
 							{% for Book in all_articels %}
 							{% if currentbook.title_small in Book.title_small %}
 							{% if currentbook.id == Book.id %}
+							
 							{% else %}
 						
 							<li><a href="?title={{Book.title}}&id={{Book.id}}" style= "color: darkblue;">{{Book.title}}</a></li>
+							{% define 1 as counter2 %}
+							{% endif %}
+							{% endif %}
+							{% if forloop.last %}
+							{% if counter2 != 1 %}
+							Keine Ähnlichen Bücher vorhanden
 							{% endif %}
 							{% endif %}
 							{% endfor %}
+						</ul>
+						    </div>
 								  </div>
 							  </div>
 
