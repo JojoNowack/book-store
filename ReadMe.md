@@ -2,7 +2,7 @@
 
 ### A simple book Store 
 <p align="center">
-  <img src="https://cdn.pixabay.com/photo/2016/03/26/22/21/books-1281581_960_720.jpg">
+  <img src="https://raw.githubusercontent.com/JojoNowack/book-store/master_chris/book_store/media/src/main_site.PNG">
 </p>
 
 ```
@@ -42,5 +42,11 @@ python manage.py runserver --insecure
 
 
 ## **Comments / TODO**
-- python manage.py runserver --insecure damit Static files laden?
-- 
+- Bücher hinzufügen ( wie viele? )
+- Trigger zu Profile max Order
+- login verweis
+- Tests
+- Datenbank anpassen?
+- Profile Seite ( verlängern / rückgabe)
+- Profile bearbeiten - Passwort und e-mail
+- passwort vergessen?
