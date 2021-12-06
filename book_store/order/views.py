@@ -77,10 +77,10 @@ def admin_borrow(request):
       context = {"all_books":all_books}
       return HttpResponse(template.render(context,request))  
      except Exception as e:
-       logger = logging.Logger('catch_all') # POST
-       print(bcolors.FAIL +"WARNUNG: Der Ausleihprozess konnte nicht abgeschlossen werden!" +  bcolors.ENDC)
-       logger.error(bcolors.FAIL +'WARNUNG: '+ str(e) + bcolors.ENDC)
-       PrintException()
+       #logger = logging.Logger('catch_all') # POST
+       #print(bcolors.FAIL +"WARNUNG: Der Ausleihprozess konnte nicht abgeschlossen werden!" +  bcolors.ENDC)
+       #logger.error(bcolors.FAIL +'WARNUNG: '+ str(e) + bcolors.ENDC)
+       #PrintException()
        messages.warning(request, f"Abholungscode ist ungültig!  ") 
        context = {"button": False}
        template = loader.get_template('admin_collection.html')
