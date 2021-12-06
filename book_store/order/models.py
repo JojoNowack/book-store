@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 # from account.models import Profile
 # Create your models here.
 
+
 class Order(models.Model):
     borrow_date = models.DateField()
     return_date = models.DateField()
@@ -18,4 +19,9 @@ class Order(models.Model):
     
     def __str__(self):
         return '{book} ist entliehen von {user}'.format(book = self.books.title, user = self.users.username)
-     
+
+
+class collection(models.Model):
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    temp_number = models.IntegerField()
+    all_orders = models.CharField(max_length=1000)

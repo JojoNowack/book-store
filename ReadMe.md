@@ -49,8 +49,4 @@ python manage.py runserver --insecure
 - Datenbank anpassen?
 - Profile Seite ( verlängern / rückgabe)
 - Profile bearbeiten - Passwort und e-mail
-<<<<<<< HEAD
 - passwort vergessen?
-=======
-- passwort vergessen?
->>>>>>> 8827496cad8fe01e2a617d4a84779f0cf720a15b

@@ -4,6 +4,8 @@ from django.contrib import messages
 from account.forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
 from books.models import Book
+from order.models import collection
+from django.contrib.auth.models import User
 # Create your views here.
 
 def register(request):
@@ -11,13 +13,23 @@ def register(request):
     # Templates of Django -> Forms
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
+            username = form['username'].value()
+            form.save()   
             messages.success(request, f'Konto wurde angelegt! Sie können sich nun anmelden.')
+            verify_borrows(username)
             return redirect('login-site')
     else:
         form = UserRegisterForm()
     return render(request, 'account/register.html', {'form':form})
+
+#Ausleihtabelle zur Verifikation
+
+
+def verify_borrows(user_name):
+    currentuser = User.objects.get(username=user_name)
+    o = collection.objects.create(user=currentuser,temp_number=0,all_orders='')
+    o.save()
+    return
 
 @login_required
 def profile(request):   

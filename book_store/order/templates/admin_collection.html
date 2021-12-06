@@ -1,0 +1,211 @@
+{% load static %}
+{% include 'header.html' %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Order Request</title>
+ 
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+
+<main role="main" class="container123">
+    <div>
+            {% if messages %}
+                {% for message in messages  %}
+                    <div class="message alert alert-{{ message.tags }}" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                        {{message}}
+                    </div>       
+                {% endfor %}
+                {% if success == True %}
+                <a href="{% url 'books-site' %}" class="round-black-btn" >Bücher ausgeliehen. Zurück zur Hauptseite</a>
+                {% else %}
+                <h1><strong>Achtung! </strong>Es wurde kein Auftrag im System gefunden!</h1>
+                <a href="{% url 'books-site' %}" class="round-black-btn" >Zurück zur Hauptseite</a>
+                {% endif %}
+               
+            {% endif %}
+   
+        {% block content %}{% endblock %}
+    </main>
+ <!-- Max: 10 Orders-->
+ <form action="" method="POST">{% csrf_token %}	
+    <div id="app" class="containercards">
+      
+         
+      
+
+    
+    {% if all_books.0 %}
+        <a href="#">
+            <card data-image="{{all_books.0.book_img.url}}">
+            <h1 slot="header">{{all_books.0.title_small}}</h1>
+            <p slot="content">{{all_books.0.book_author}}</p>
+            </card>
+            <div class="button r text-center" id="button-1">
+                <input type="checkbox" class="checkbox"  name="buch[]" value="{{all_books.0.id}}" checked>
+                <div class="knobs"></div>
+                <div class="layer"></div>
+              </div>
+            </a>
+     {% endif %}
+
+     {% if all_books.1 %}
+     <a href="#">
+         <card data-image="{{all_books.1.book_img.url}}">
+         <h1 slot="header">{{all_books.1.title_small}}</h1>
+         <p slot="content">{{all_books.1.book_author}}</p>
+       
+         </card>
+         <div class="button r text-center" id="button-1">
+            <input type="checkbox" class="checkbox"  name="buch[]" value="{{all_books.1.id}}" checked>
+            <div class="knobs"></div>
+            <div class="layer"></div>
+          </div>
+         </a>
+      
+  {% endif %}
+
+  {% if all_books.2 %}
+  <a href="#">
+      <card data-image="{{all_books.2.book_img.url}}">
+      <h1 slot="header">{{all_books.2.title_small}}</h1>
+      <p slot="content">{{all_books.2.book_author}}</p>
+      </card>
+      <div class="button r text-center" id="button-1">
+        <input type="checkbox" class="checkbox" name="buch[]" value="{{all_books.2.id}}" checked>
+        <div class="knobs"></div>
+        <div class="layer"></div>
+      </div>
+      </a>
+{% endif %}
+
+{% if all_books.3 %}
+<a href="#">
+    <card data-image="{{all_books.3.book_img.url}}">
+    <h1 slot="header">{{all_books.3.title_small}}</h1>
+    <p slot="content">{{all_books.3.book_author}}</p>
+    </card>
+    <div class="button r text-center" id="button-1">
+        <input type="checkbox" class="checkbox" name="buch[]" value="{{all_books.3.id}}" checked>
+        <div class="knobs"></div>
+        <div class="layer"></div>
+      </div>
+    </a>
+{% endif %}
+
+{% if all_books.4 %}
+<a href="#">
+    <card data-image="{{all_books.4.book_img.url}}">
+    <h1 slot="header">{{all_books.4.title_small}}</h1>
+    <p slot="content">{{all_books.4.book_author}}</p>
+    </card>
+    <div class="button r text-center" id="button-1">
+        <input type="checkbox" class="checkbox" name="buch[]" value="{{all_books.4.id}}" checked>
+        <div class="knobs"></div>
+        <div class="layer"></div>
+      </div>
+    </a>
+{% endif %}
+
+{% if all_books.5 %}
+<a href="#">
+    <card data-image="{{all_books.5.book_img.url}}">
+    <h1 slot="header">{{all_books.5.title_small}}</h1>
+    <p slot="content">{{all_books.5.book_author}}</p>
+    </card>
+    <div class="button r text-center" id="button-1">
+        <input type="checkbox" class="checkbox" name="buch[]" value="{{all_books.5.id}}" checked>
+        <div class="knobs"></div>
+        <div class="layer"></div>
+      </div>
+    </a>
+{% endif %}
+
+{% if all_books.6 %}
+<a href="#">
+    <card data-image="{{all_books.6.book_img.url}}">
+    <h1 slot="header">{{all_books.6.title_small}}</h1>
+    <p slot="content">{{all_books.6.book_author}}</p>
+    </card>
+    <div class="button r text-center" id="button-1">
+        <input type="checkbox" class="checkbox" name="buch[]" value="{{all_books.6.id}}" checked>
+        <div class="knobs"></div>
+        <div class="layer"></div>
+      </div>
+    </a>
+{% endif %}
+
+{% if all_books.7 %}
+<a href="#">
+    <card data-image="{{all_books.7.book_img.url}}">
+    <h1 slot="header">{{all_books.7.title_small}}</h1>
+    <p slot="content">{{all_books.7.book_author}}</p>
+    </card>
+    <div class="button r text-center" id="button-1">
+        <input type="checkbox" class="checkbox" name="buch[]" value="{{all_books.7.id}}" checked>
+        <div class="knobs"></div>
+        <div class="layer"></div>
+      </div>
+    </a>
+{% endif %}
+
+{% if all_books.8 %}
+<a href="#">
+    <card data-image="{{all_books.8.book_img.url}}">
+    <h1 slot="header">{{all_books.8.title_small}}</h1>
+    <p slot="content">{{all_books.8.book_author}}</p>
+    </card>
+    <div class="button r text-center" id="button-1">
+        <input type="checkbox" class="checkbox" name="buch[]" value="{{all_books.8.id}}" checked>
+        <div class="knobs"></div>
+        <div class="layer"></div>
+      </div>
+    </a>
+{% endif %}
+
+     {% if all_books.9 %}
+     <a href="#">
+            <card data-image="{{all_books.9.book_img.url}}">
+            <h1 slot="header">{{all_books.9.title_small}}</h1>
+            <p slot="content">{{all_books.9.book_author}}</p>
+            </card>
+            <div class="button r text-center" id="button-1">
+                <input type="checkbox" class="checkbox" name="buch[]" value="{{all_books.9.id}}" checked>
+                <div class="knobs"></div>
+                <div class="layer"></div>
+              </div>
+            </a>
+     {% endif %}
+
+    </div>
+
+    
+   
+        </div>
+        {% if button == False %}
+        {% else %}
+        <div class="vertical-and-horizontal-center">
+    					
+            
+            <!--<input  type="hidden" class="round-black-btn"  name="buch[]" value="0">-->
+            <a href="" class="round-black-btn" onclick="document.forms[0].submit();return false; ">Bestätigen</a>
+            </form>
+        </div>
+        {% endif %}
+
+      
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script><script  src="{% static 'order/script.js' %}"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js'></script>
+    </script><script  src="{% static 'order/books.js' %}"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      
+      </body>
+      </html>
+      

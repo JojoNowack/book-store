@@ -24,6 +24,7 @@ urlpatterns = [
     # register path
     path('login/', include('account.urls')),
     path('books/', include('books.urls'),name='books-site'),
+     path('order/', include('order.urls'),name='order-site'),
     path('', lambda req: redirect('/books/')),
     path('faq/', faq, name='faq-site'),
     path('profile/', acc_views.profile, name='profile')
