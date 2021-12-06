@@ -41,12 +41,6 @@ def login(request):
     return render(request, 'account/login.html')
 
 def about(request):
-    #added by johannes to insert new books while runtime
-    #can be deleted
-    print("about to add new books")
-    print(Book.objects.get(id=2))
-    mybook= Book(2, 'img', 'titel', 'desc', '2021-10-10', 'author', True, 12, 'horror', 100)
-    mybook.save()
     return render(request, 'account/about.html',{'title':'About'})
 
 #schaut in tabele order und sucht alle einträge zum aktuellen user und listet sie auf -> schickt sie ins html file
