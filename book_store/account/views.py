@@ -54,14 +54,19 @@ def about(request):
 @login_required
 def showmybooks(request):
     if request.method =='POST': #wenn auf einen der buttens gedrückt wurde
-        print(request.POST.getlist('idandisextend[]'))
         if request.POST.getlist('idandisextend[]')[1] == 'true' : #bedeutet es wurde der verlängern butten gedrückt
             #order_order return date um 2 wochen verlängern
-            order = getorder(request)
+            order = __getorder__(request)
             order.return_date= order.return_date +datetime.timedelta(weeks=2)
             order.save(update_fields=['return_date']) #ohne das gehts nicht
         else: #bedeutet es wurde der stornieren butten gedrückt
-            order = getorder(request)
+            order = __getorder__(request)
+            #quantitiy vom buch +1
+            book=Book.objects.get(id=order.books.id)
+            if book.quantity < 0:
+                raise Exception("negative quantity ist nicht möglich")
+            book.quantity= book.quantity+1
+            book.save(update_fields=['quantity'])
             order.delete()
         return HttpResponseRedirect('#')
     else:
@@ -71,19 +76,14 @@ def showmybooks(request):
         return render(request, 'account/test.html', context=context)
 
 
-def getorder(request):
+def __getorder__(request):
     bookid = int(request.POST.getlist('idandisextend[]')[0])
     allorders = Order.objects.all()
     filteredorders = allorders.filter(books_id=bookid).filter(users_id=request.user.id)
     if len(filteredorders) != 1:
-        raise Exception("len müsste 1 sein sonst vll Fehler in Datenbank?")
+        raise Exception("Größe der Liste müsste 1 sein sonst ist vielleicht ein Fehler in der Datenbank?")
     order = filteredorders[0]
     return order
 
 
-@login_required
-def extend(request):
-    print(request.method =='POST')
-    print("hurra")
-    return render(request, 'account/login.html')
 
