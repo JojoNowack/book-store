@@ -23,7 +23,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='account/logout.html'),name='logout'),
     # register path
     path('login/', include('account.urls')),
-    path('books/', include('books.urls')),
+    path('books/', include('books.urls'),name='books-site'),
     path('', lambda req: redirect('/books/')),
     path('faq/', faq, name='faq-site'),
     path('profile/', acc_views.profile, name='profile')

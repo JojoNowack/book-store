@@ -12,7 +12,8 @@
 
 
 {% block content %}
-   <div class="content section centertext"style="width: 350px; font-weight: bold; font-size: 17px" >
+
+   <div class="content section centertext"style="width: 350px; font-weight: bold; font-size: 17px margin-top:50px;" >
     <form method="POST" >
         {% csrf_token %}
         <fieldset class="form-group" >
@@ -24,9 +25,14 @@
         </div>
     </form>
     <div class="border-top">
-        <small class="text-muted" style="color:white !important;">
+        <small class="textlogin">
             Bereits Regestriert? <a class="ml-2" style="font-weight: bold; font-size: 15px" href="{% url 'login-site' %}">Anmelden</a>
         </small>
     </div>
    </div>
+
+
+
+
+
 {% endblock content %}
