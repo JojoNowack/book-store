@@ -57,23 +57,28 @@ def showmybooks(request):
         print(request.POST.getlist('idandisextend[]'))
         if request.POST.getlist('idandisextend[]')[1] == 'true' : #bedeutet es wurde der verlängern butten gedrückt
             #order_order return date um 2 wochen verlängern
-            bookid = int(request.POST.getlist('idandisextend[]')[0])
-            allorders = Order.objects.all()
-            filteredorders= allorders.filter(books_id=bookid).filter(users_id=request.user.id) #!!todo unbedingt minus eins wegmachen
-            if len(filteredorders) != 1:
-                raise Exception("len müsste 1 sein sonst vll Fehler in Datenbank?")
-            order = filteredorders[0]
+            order = getorder(request)
             order.return_date= order.return_date +datetime.timedelta(weeks=2)
-            order.save(update_fields=['return_date'])
-
+            order.save(update_fields=['return_date']) #ohne das gehts nicht
         else: #bedeutet es wurde der stornieren butten gedrückt
-            print("what?")
+            order = getorder(request)
+            order.delete()
         return HttpResponseRedirect('#')
     else:
         all_books = Order.objects.all()
         my_books =  all_books.filter(users_id=request.user.id)
         context = {"all_books": my_books}
         return render(request, 'account/test.html', context=context)
+
+
+def getorder(request):
+    bookid = int(request.POST.getlist('idandisextend[]')[0])
+    allorders = Order.objects.all()
+    filteredorders = allorders.filter(books_id=bookid).filter(users_id=request.user.id)
+    if len(filteredorders) != 1:
+        raise Exception("len müsste 1 sein sonst vll Fehler in Datenbank?")
+    order = filteredorders[0]
+    return order
 
 
 @login_required
