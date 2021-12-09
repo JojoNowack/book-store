@@ -56,12 +56,10 @@ def showmybooks(request):
     if request.method =='POST': #wenn auf einen der buttens gedrückt wurde
         if request.POST.getlist('idandisextend[]')[1] == 'true' : #bedeutet es wurde der verlängern butten gedrückt
             #order_order return date um 2 wochen verlängern
-            #todo nur wenn quantity >2
             order = __getorder__(request)
             order.return_date= order.return_date +datetime.timedelta(weeks=2)
             order.save(update_fields=['return_date']) #ohne das gehts nicht
         else: #bedeutet es wurde der stornieren butten gedrückt
-            #todo nur wenn borrowed book= false
             order = __getorder__(request)
             #quantitiy vom buch +1
             book=Book.objects.get(id=order.books.id)
