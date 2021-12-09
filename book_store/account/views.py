@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 #from .models import Post
 from django.contrib import messages
-from account.forms import UserRegisterForm
+from account.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 from books.models import Book
 from order.models import Order
@@ -23,19 +23,25 @@ def register(request):
     return render(request, 'account/register.html', {'form':form})
 
 @login_required
-def profile(request):   
-    # if request.method == "POST": 
-    #     p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
-    #     if p_form.is_valid():
-    #         p_form.save()
-    #         messages.success(request, f'Änderungen waren erfolgreich')
-    #         return redirect('profile')
-    # else:
-    #     p_form = ProfileUpdateForm(instance=request.user.profile)
-    # context = {
-    #     'p_form' : p_form
-    # } # context muss in die render-Funktion als dritter Parameter übergeben werden
-    return render(request, 'account/profile.html')
+def profile(request): 
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid(): 
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Konto wurde aktualisiert.')
+            return redirect('profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form' : u_form,
+        'p_form' : p_form
+    }
+    # context muss in die render-Funktion als dritter Parameter übergeben werden
+    return render(request, 'account/profile.html', context)
 
 def login(request):
     return render(request, 'account/login.html')
