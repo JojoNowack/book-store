@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'book_store.wsgi.application'
 MESSAGES_TAGS = {
     messages.DEBUG: 'alter-secondary',
     messages.INFO: 'alert-info',
-    messages.SUCCESS: 'alert-succes',
+    messages.SUCCESS: 'alert-success',
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
@@ -149,3 +149,11 @@ LOGIN_URL = 'login'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'hs.augsburg.book.store@gmail.com'
+EMAIL_HOST_PASSWORD = 'HS-Augsburg-book_store'
+    
