@@ -12,7 +12,7 @@
 
 
 {% block content %}
-
+<div class="glasscontainer addpadding">
    <div class="content section centertext"style="width: 350px; font-weight: bold; font-size: 17px margin-top:50px;" >
     <form method="POST" >
         {% csrf_token %}
@@ -26,10 +26,11 @@
     </form>
     <div class="border-top">
         <small class="textlogin">
-            Bereits Regestriert? <a class="ml-2" style="font-weight: bold; font-size: 15px" href="{% url 'login-site' %}">Anmelden</a>
+            Bereits Registriert? <a class="ml-2" style="font-weight: bold; font-size: 15px" href="{% url 'login-site' %}">Anmelden</a>
         </small>
     </div>
    </div>
+</div>
 
 
 

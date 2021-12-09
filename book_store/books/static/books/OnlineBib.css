@@ -1359,3 +1359,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 
 
+.addpadding{
+  padding-top: 50px; 
+  padding-bottom: 50px; 
+  padding-left:50px;
+   padding-right:50px;
+}
+
+.glasscontainer {
+  margin-top: 100px !important;
+  background: transparent;
+  margin-top: 50px;
+  border-radius: 0.2rem;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.8);
+  align-items: center;
+  font-weight: bold;
+  background: linear-gradient( rgba(255, 255, 255,25%), rgba(255, 255, 255, 25%) ); 
+  border-radius: 30px 30px 30px 30px;
+}
