@@ -14,5 +14,6 @@ urlpatterns = [
     # the path to the main page 
     path('about/', views.about, name='about-site'),
     path('books/', views.about, name='books-site'),
-    path('faq/', views.about, name='faq-site')
+    path('faq/', views.about, name='faq-site'),
+    path('', views.login, name='login-leer') #wird gebraucht damit wir nicht bei login/login landen
 ]
