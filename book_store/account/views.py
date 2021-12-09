@@ -41,6 +41,12 @@ def login(request):
     return render(request, 'account/login.html')
 
 def about(request):
+    #added by johannes to insert new books while runtime
+    #can be deleted
+    print("about to add new books")
+    print(Book.objects.get(id=2))
+    mybook= Book(2, 'img', 'titel', 'desc', '2021-10-10', 'author', True, 12, 'horror', 100)
+    mybook.save()
     return render(request, 'account/about.html',{'title':'About'})
 
 #schaut in tabele order und sucht alle einträge zum aktuellen user und listet sie auf -> schickt sie ins html file
@@ -67,7 +73,7 @@ def showmybooks(request):
         all_books = Order.objects.all()
         my_books =  all_books.filter(users_id=request.user.id)
         context = {"all_books": my_books}
-        return render(request, 'account/test.html', context=context)
+        return render(request, 'account/meinebuecher.html', context=context)
 
 
 def __getorder__(request):
