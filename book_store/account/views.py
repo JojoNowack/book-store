@@ -41,6 +41,12 @@ def login(request):
     return render(request, 'account/login.html')
 
 def about(request):
+    #added by johannes to insert new books while runtime
+    #can be deleted
+    print("about to add new books")
+    print(Book.objects.get(id=2))
+    mybook= Book(2, 'img', 'titel', 'desc', '2021-10-10', 'author', True, 12, 'horror', 100)
+    mybook.save()
     return render(request, 'account/about.html',{'title':'About'})
 
 #schaut in tabele order und sucht alle einträge zum aktuellen user und listet sie auf -> schickt sie ins html file
@@ -50,10 +56,12 @@ def showmybooks(request):
     if request.method =='POST': #wenn auf einen der buttens gedrückt wurde
         if request.POST.getlist('idandisextend[]')[1] == 'true' : #bedeutet es wurde der verlängern butten gedrückt
             #order_order return date um 2 wochen verlängern
+            #todo nur wenn quantity >2
             order = __getorder__(request)
             order.return_date= order.return_date +datetime.timedelta(weeks=2)
             order.save(update_fields=['return_date']) #ohne das gehts nicht
         else: #bedeutet es wurde der stornieren butten gedrückt
+            #todo nur wenn borrowed book= false
             order = __getorder__(request)
             #quantitiy vom buch +1
             book=Book.objects.get(id=order.books.id)

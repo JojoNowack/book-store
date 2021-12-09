@@ -67,14 +67,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
               <!-- isextend[book_id, true for verlängern false for stornieren]-->
               <input  type="hidden" class="round-black-btn"  name="idandisextend[]" value="{{Order.books.id}}"> <!-- isextend[0]-->
               <input  type="hidden" class="round-black-btn"  name="idandisextend[]" value="true"> <!-- isextend[1]-->
-                <button type="submit" name='buttonforextend' class="btn btn-warning btn-xs" >Verlängern</button>
+                <button type="submit" name='buttonforextend' class="btn btn-success btn-xs" >Verlängern</button>
             </form>
             <form action="#" method="post"  > <!--Button für stornieren -->
              {% csrf_token %}
               <!-- isextend[book_id, true for verlängern false for stornieren]-->
               <input  type="hidden" class="round-black-btn"  name="idandisextend[]" value="{{Order.books.id}}"> <!-- isextend[0]-->
               <input  type="hidden" class="round-black-btn"  name="idandisextend[]" value="false"> <!-- isextend[1]-->
-                <button type="submit" name='buttonforstrono' class="btn btn-warning btn-xs" >Stornieren</button>
+                <button type="submit" name='buttonforstrono' class="btn btn-danger btn-xs" >Stornieren</button>
             </form>
 
 
@@ -85,6 +85,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       </table>
 
     </div>
-  
-  
+
+
 {% endblock content %}
