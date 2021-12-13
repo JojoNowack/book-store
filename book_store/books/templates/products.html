@@ -1,4 +1,4 @@
-{% comment %} it is the parent template. login and about inherit the characteristica of base {% endcomment %}
+
 {% load static %}
 {% load save_var %}
 {% include 'header.html' %}
@@ -6,7 +6,15 @@
 {% load templatehelpers %}
 
 
+<!-- Design Template verwendet, aber deutlich angepasst, im Grunde wurden nur die Klassen verwendet.
+Copyright (c) 2021 by nguyencaotai1969 (https://codepen.io/nguyencaotai1969/pen/jOWaYXO)
 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
 
 
 <!DOCTYPE html>
@@ -15,8 +23,7 @@
   <meta charset="UTF-8">
   <title>{{stud.title}}</title>
 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-  <script  src="{% static 'books/cart.js' %}"></script>
+  <!--Products.js = anpassung der Seiten und zum anzeigen der alerts-->
   <script  src="{% static 'books/products.js' %}"></script>
   
 
@@ -34,8 +41,16 @@
 <!------ Include the above in your HEAD tag ---------->
 
 	
+<!-- Design Template Bücher Karte
+Copyright (c) 2021 by Andy Merskin (https://codepen.io/andymerskin/pen/XNMWvQ)
 
-		<div class="container containerProduct center textstyle">
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+		<div class="container containerProduct center textstyle" style="margin-top: 30px;">
 
 	        <div class="heading-section">
 	            <h2></h2>
@@ -49,6 +64,7 @@
     <!--<p slot="content">testauthor</p>-->
   </card>
   </div>
+<!-- END Design Template Bücher Karte Copyright (c) 2021 by Andy Merskin (https://codepen.io/andymerskin/pen/XNMWvQ)-->
 	        		
 	        	</div>
 	        	<div id="changeclass2" class="col-md-6">
@@ -60,7 +76,7 @@
 
 		        			<div class="product-price-discount"><span><!--39€.00--></span><span class="line-through"><!--$18€.00--></span></div>
 		        		</div>
-	        			<p>{{currentbook.description}}</p>
+	        			<p>{{currentbook.description_small}}</p>
 
 						<!--<form action="#" method="POST">
 							<a href="?title=harry%20potter&id=3&borrowed=true" type="submit" id='ausleihen'  name="mybtn2" class="round-black-btn" onclick="showalert('✓ {{currentbook.title}} wurde ausgeliehen',1)">{{currentbook.title}}: Band: {{currentbook.part}} ausleihen</a></input>
@@ -86,14 +102,15 @@
 
 {% if currentbook.isavailable == False %}
 <div class="alert alert-fail mdi mdi-star" style="text-align: center;" role="alert">
+	<strong>Zurzeit nicht Verfügbar! - vorraussichtlich verfügbar ab</strong>
 	{% for Order in orderdata|dictsort:"return_date" %}
 	{% if Order.books.id == currentbook.id %}
-	{% if forloop.first %}
-	<strong>Zurzeit nicht Verfügbar! - vorraussichtlich verfügbar ab</strong>
+	{% if counter3 != 1 %}
+	{% define 1 as counter3 %}
 	<h1 style = "margin-top: 10px;">{{Order.return_date}}</h1>
 	{% endif %}
 	{% endif %}
-	{% endfor %}
+	{% endfor %} 
 </div>
 {% endif %}
 
@@ -105,7 +122,7 @@
 							 {% if user.id == Order.users.id %}
 							 {% if Order.books.id == currentbook.id %}
 							 <!-- Anfang - Buch schon ausgeliehen Meldung-->		 
-							 <a href="profilweiterleitung"  class="round-black-btn">Bearbeiten - Rückgabe: {{Order.return_date}}</a></input>
+							 <a href="{% url 'items-site' %}"  class="round-black-btn">Bearbeiten - Rückgabe: {{Order.return_date}}</a></input>
 							 <!--<h3 style="text-align: center; margin-top: 15px; font-weight:bold">Rückgabe bis zum: {{Order.return_date}}</h3>-->
 							 <!-- Ende   - Buch schon ausgeliehen Meldung-->
 							 {% define 1 as counter %}
@@ -191,7 +208,7 @@
 					</div>
 
 					<div class="tab-pane fade show active" style="color:black; font-weight: bold; font-size: 20px;" id="review" role="tabpanel" aria-labelledby="review-tab">
-						<div class="review-heading" style="color:black; margin-bottom: 20px; text-underline-position: under;text-decoration: underline;">
+						<div class="review-heading" style="color:black; margin-bottom: 20px; text-underline-position: under;text-decoration: underline; line-height: 40px;">
 							Weitere Details zum Buch:
 						</div>
 						<ul>
@@ -200,7 +217,10 @@
 						<li>Seiten: {{currentbook.pages}}</br>	  </li> 
 					    <li>Veröffentlichung: {{currentbook.year}}</br>	</li>
 						<li>Genre: <a href="../?genre={{currentbook.genre}}" style="color: rgb(11, 11, 97); text-decoration: underline; font-weight: bold;">{{currentbook.genre}}</a></br>	</li>
-						<li>Verfügbar: {{currentbook.quantity}} - (Nur für Produktion oder Admin?)</br>	</li>
+						{% if user.is_superuser %}
+						<li>Verfügbar: {{currentbook.quantity}}</br>	</li>
+						<li>Totalorders: {{currentbook.totalorders}}</br>	</li>
+						{% endif %}
 						<li>Altersempfehlung: ab {{currentbook.age}} Jahren </br>	</li>
 						<li>Sprache: {{currentbook.language}}</br>	</li>
 						<li>Ausleihdauer: {{currentbook.ausleihtage}} Tage</br>	</li>
@@ -259,6 +279,19 @@
   
 </body>
 </html>
+
+
+{% if status == 'error' %}
+<script type="text/javascript">
+	
+    var alerted = localStorage.getItem('alerted') || '';
+    if (alerted == 'yes') {
+		showalert('{{currentbook}}',6,"{{currentbook.id}}")
+     localStorage.setItem('alerted','no');
+    }
+	
+</script>
+{% endif %}
 
 
 

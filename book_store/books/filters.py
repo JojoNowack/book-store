@@ -36,6 +36,8 @@ class booksFilterwithGenre(django_filters.FilterSet):
     }
     GENRE_CHOICES = {
         ('Fantasy', 'Fantasy'),
+        ('Thriller', 'Thriller'),
+        ('Roman', 'Roman'),
         ('Kinderbuch', 'Kinderbuch'),
     }
     title = CharFilter(field_name='title',lookup_expr='icontains', label='Buchtitel')

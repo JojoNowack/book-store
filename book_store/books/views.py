@@ -1,5 +1,7 @@
 
 from typing import Reversible
+from django.contrib.auth.decorators import login_required
+from django.db import connection
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.template import loader
@@ -33,7 +35,10 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-# Create your views here.
+# Diese Funktion wird für das Anzeigen der einzelnen Büchern in z.B. http://127.0.0.1:8000/books/products/?title=harry%20potter%20und%20der%20gefangene%20von%20askaban&id=4
+# verwendet.
+# Sie hat eine Get und eine Post Methode
+# 
 @csrf_exempt
 def getdetails(request):
        @csrf_protect
@@ -63,7 +68,7 @@ def getdetails(request):
                    {}
                 try:
                     
-                    orderdata = Order.objects.all()
+                    orderdata = Order.objects.all()   
                     template = loader.get_template('products.html')
                     id = request.GET['id']          
                     currentbook = Book.objects.get(id=id)
@@ -80,7 +85,7 @@ def getdetails(request):
                     context = {"currentbook": currentbook,"all_articels":all_articels}
                     print(bcolors.WARNING +"ACHTUNG: Fehler in books.views(getdetails) - Buch wurde nicht gefunden - Buch mit ID: "+ str(id) +" - "+ str(currentbook) +" wurde ausgegeben"+  bcolors.ENDC)
                     return HttpResponse(template.render(context,request))
-            
+          #@login_required
           if request.method == 'POST':
               # Post methode --> Bestellprozess
            #print("POST!!!!!")
@@ -131,24 +136,25 @@ def getdetails(request):
            showalert = 3
            return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=error')
 
-
+# Maximale Bücher des Users zählen, ist er über 10 --> return false und beende den Prozess mit einer Alert Message
 def countmaxbooks(request):
     current_user = request.user
     test = Order.objects.filter(users=current_user)
     x = len(test)
+    # 10 Bücher dürfen maximal ausgeliehen werden
+    # könnte man in neueren Versionen auch aus dem Trigger auslesen
     if x >= 10:
       return True
     else:
      return False
 
+# kann diese Funktion gelöscht werden?
 def cancelproduct(request):
     #Buch zurückgeben, checkt ob man das Buch auch wirklich ausgeliehen hat --> book_borrowed = true
     current_user = request.user
     bookID = request.GET['bookID']
     buch = Book.objects.get(id=bookID)
     try:
-     #Todo only if book isnt borrowed
-    
      orderbook = Order.objects.filter(users=current_user,books=bookID)
      if(orderbook[0].book_borrowed):
          {}
@@ -158,7 +164,8 @@ def cancelproduct(request):
     except:
       return HttpResponseRedirect('../?title='+buch.title+'&id='+bookID)
     return HttpResponseRedirect('../?title='+buch.title+'&id='+bookID)
-
+# Checkt ob der User ein Buch besitzt, dass schon über der Frist liegt, wenn ja gibt die Funktion eine Fehlermeldung und return false aus und der Prozess wird mit 
+# einer alert message beendet, die besagt, dass der Benutzer zuerst seine Bücher abgeben soll.
 def book_over_time(borrowdates,current_user,user_has_borrowed):
     for i in range(len(borrowdates)):
        #date_time_obj = datetime.strptime(str(borrowdates[i]),'%y/%m/%d %H:%M:%S')
@@ -175,7 +182,8 @@ def book_over_time(borrowdates,current_user,user_has_borrowed):
               print(bcolors.WARNING+ "ACHTUNG: Abgabe wurde überschritten, Benutzer mit ID: "+ str(current_user) + " kann keine weiteren Bücher mehr ausleihen!"+ bcolors.ENDC)
               return False
     return True
-
+#Copy Code from https://stackoverflow.com/questions/14519177/python-exception-handling-line-number/20264059 
+#Start 
 def PrintException():
     exc_type, exc_obj, tb = sys.exc_info()
     f = tb.tb_frame
@@ -184,13 +192,15 @@ def PrintException():
     linecache.checkcache(filename)
     line = linecache.getline(filename, lineno, f.f_globals)
     print(bcolors.WARNING + "WARNUNG: IN Zeile: " + str(lineno) + " mit Fehler: "+ bcolors.FAIL + line.strip()  + bcolors.ENDC)
+#End 
 
 def zurückgeben(UserID,BookID):
     Order.objects.filter(users=UserID,books=BookID).delete()
     print(bcolors.OKGREEN + "User: " + str(UserID) +" hat Buch mit ID: "+str(BookID)+ " zurückgegeben"  + bcolors.ENDC)
     return
 
-
+# Zum anzeigen der Bücher in der Main Page
+# Werte werden durch einen Context dem template index.html übergeben
 def booksmainpage(request):
    print('Bücher werden angezeigt')
    try:
@@ -216,12 +226,5 @@ def booksmainpage(request):
         #return HttpResponse(template.render(context,request))  
         return render(request,'index.html',context=context)
 
-def indextest(request):
-     print("Test wird ausgeführt")
-     test1 = Book.objects.get(id=1)
-     test2 = Profile.objects.get(id=12)
-     o = Order.objects.create(books=test1,users=test2,borrow_date='2021-11-26 17:03:05',return_date='2021-11-26 19:03:05')
-     o.save()  
-     title = request.GET['title'].lower() 
-     print(title)
-     return 
+
+

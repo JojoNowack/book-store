@@ -28,16 +28,16 @@ if SECRET_KEY is None:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'book_store',
-    'books',
-    'order',
     'account',
+    'books',
+    'order',   
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -1,12 +1,12 @@
 
 function suchfensteroeffnen() {
-  document.querySelector('.container-cadastro').classList.add('ativo')
+  document.querySelector('.container-filter').classList.add('aktiv')
 }
 
 function suchfensterschließen() {
-  let divCadastro = document.querySelector('.container-cadastro')
+  let divfilter = document.querySelector('.container-filter')
 
-  divCadastro.classList.remove('ativo')
+  divfilter.classList.remove('aktiv')
 }
 
 // register the handler 

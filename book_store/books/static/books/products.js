@@ -50,7 +50,8 @@ function sleep(ms) {
 
     if (id === 1){
      var div = document.getElementById('customalert');
-    div.innerHTML = "<h1>✓ </h1>"+msg + "<br>"   +"<a href='cancel/?bookID="+bookid+"'>Rückgängig?</a>";
+    /*div.innerHTML = "<h1>✓ </h1>"+msg + "<br>"   +"<a href='../../login/test/'>Rückgängig?</a>";*/
+     div.innerHTML = "<h1>✓ </h1>"+msg;
     await sleep(600);
     document.querySelector('.myalert-success').classList.add('aktiv')
 
@@ -64,7 +65,7 @@ function sleep(ms) {
       }
       if (id === 4){
         var div = document.getElementById('customalert4');
-        div.innerHTML = "<h1>! </h1>" + " Sie haben Ihre Bücherabgaben nicht eingehalten, bitte verlängern Sie "+"<a href=''>hier</a>"+" Ihre Bücher oder geben Sie diese bitte zum nächstmöglichen Termin ab";
+        div.innerHTML = "<h1>! </h1>" + " Sie haben Ihre Bücherabgaben nicht eingehalten, bitte verlängern Sie ihre Bücher oder geben Sie diese bitte zum nächstmöglichen Termin in der Bibiliothek ab";
         await sleep(600);
         document.querySelector('.myalert-info').classList.add('aktiv')
    
@@ -75,6 +76,12 @@ function sleep(ms) {
           await sleep(600);
           document.querySelector('.myalert-maxbooks').classList.add('aktiv')
           }
+          if (id === 6){
+            var div = document.getElementById('customalertfailed');
+            div.innerHTML = "<h1>X </h1> Beim ausleihen von "+msg + " ist ein Problem aufgetreten bitte versuche es später noch einmal";
+            await sleep(600);
+            document.querySelector('.myalert-failed').classList.add('aktiv')
+            }
   }
   
   

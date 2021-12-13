@@ -1,4 +1,7 @@
 
+
+
+
 {% extends 'account/base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
@@ -17,27 +20,29 @@
 {% endblock route %}
 
 {% block content %}
-
+<div class="glasscontainer addpadding" style="margin-top: 0px !important;">
+        <img class="loginlogo" src="{% static 'account/images/OnlineBib.jpg' %}"></img>
    <div class="content section centertext" style="width: 250px; margin-top: 150px; font-weight: bold">
     <form method="POST" >
         
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4" >Melden Sie sich an:</legend>
+            <legend class="border-bottom mb-4" style="padding-top: 30px;">Melden Sie sich an:</legend>
             {{ form|crispy }}
         </fieldset>
         <div class="form-gorup">
-            <button class="btn btn-outline-info" style=" font-weight: bold;"  type="submit">Anmelden</button>
+            <button class="btn btn-info" style=" font-weight: bold; margin-bottom: 20px;"  type="submit">Anmelden</button>
         </div>
     </form>
     <div class="border-top" pt-3 >
         <small class="textlogin" >
             Sie wollen sich Registrieren? <a class="ml-2" href="{% url 'register-site' %}">Regstrieren</a>
+            Haben Sie Ihr Passwort vergessen? <a class="ml-2" href="{% url 'password_reset' %}">Passwort vergessen</a>
         </small>
     </div>
    </div>
+</div>
 
    
 
 {% endblock content %}
-
