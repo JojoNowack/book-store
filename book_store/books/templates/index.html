@@ -11,8 +11,9 @@
 
   
   <title>Startseite</title>
+
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-  <title>Startseite</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
   <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
@@ -34,17 +35,17 @@
   <header class="navmenu">
 
   <input type='checkbox' id='toggle2' style='display:none;' />
-  <label id="kategoriebutton" class='toggle2-btn toggle2-btn__cross horizontal-center' style=" font-weight: bold;  margin-top: 42px; width: 155px; height: 40px;"  for='toggle2'>
+  <label id="kategoriebutton" class='toggle2-btn toggle2-btn__cross horizontal-center' style=" font-weight: bold;  margin-top: 42px; width: 155px; height: 40px; position:absolute;"  for='toggle2'>
     <div class="bar"></div>
     <div class="bar"></div>
     <div class="bar"></div>
   </label>
-   <nav class="hidescrollbarmenu">
+   <nav class="hidescrollbarmenu2">
     <ul>
 	  <li><a href="?genre=Fantasy">Fantasy</a></li>
 	  <li><a href="?genre=Kinderbuch">Kinderbuch</a></li>
-	  <li><a href="#">Home</a></li>
-	  <li><a href="#">Home</a></li>
+	  <li><a href="?genre=Thriller">Thriller</a></li>
+	  <li><a href="?genre=Roman">Roman</a></li>
 	  <li><a href="#">Home</a></li>
     <li><a href="#">Home</a></li>
 	  <li><a href="#">Home</a></li>
@@ -70,7 +71,7 @@
 
 
   <script  src="{% static 'books/filter.js' %}"></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="{% static 'books/cart.js' %}"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="{% static 'books/mainsite.js' %}"></script>
 
 </body>
 </html>
@@ -89,9 +90,9 @@
    
         <button class="btn btn-outline-info" style="margin-top: 115px;" onclick="suchfensteroeffnen()">Erweiterte Suche</button>
       
-      <div class="container-cadastro center">
+      <div class="container-filter center">
         <fieldset>
-            <div class="container-cadastro-campo">
+            <div class="container-filter-c">
             <form method="get">
                 {{ filtered_books.form.as_p }}           
          <!----- <legend>Suchen</legend>------>
@@ -129,7 +130,30 @@
 
 <body>
 <!-- partial:index.partial.html -->
-<h1 class="title">Wähle dein Buch</h1>
+<!--<h1 class="title">Wähle dein Buch</h1>-->
+<!--Copyright (c) 2021 by Marko (https://codepen.io/denic/pen/GRoOxbM)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. --> 
+<div class="wrapper">
+  <div class="typing-demo">
+    Wähle dein Buch.
+  </div>
+</div>
+<!--END Copyright (c) 2021 by Marko (https://codepen.io/denic/pen/GRoOxbM)-->
+
+<!-- Design Template Bücher Karte
+Copyright (c) 2021 by Andy Merskin (https://codepen.io/andymerskin/pen/XNMWvQ)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
 <div id="app" class="containercards">
   {% if books_page_obj %}
     {% for Book in books_page_obj|dictsortreversed:"totalorders" %}
@@ -151,8 +175,10 @@
     </a>
    
     {% endfor %}
+<!--END Design Template Bücher Karte Copyright (c) 2021 by Andy Merskin (https://codepen.io/andymerskin/pen/XNMWvQ)-->
+    
    
-<!-- PAGINATION START ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+<!-- PAGINATION Desgin START ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
 <!--
   Copyright (c) 2021 by Béla Varga (https://codepen.io/netzzwerg/pen/hfutI)
 
@@ -162,7 +188,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
-
+<!-- Code Start from https://simpleisbetterthancomplex.com/snippet/2016/08/22/dealing-with-querystring-parameters.html-->
 {% if books_page_obj.paginator.num_pages == 1 %}
 {% else %}
 <div class="containerpagination xsmall">
@@ -180,12 +206,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   {% endif %}
 </div>
 </div>
-</div>
 {% endif %}
+<!-- Code End from https://simpleisbetterthancomplex.com/snippet/2016/08/22/dealing-with-querystring-parameters.html-->
 
 
-
-<!-- PAGINATION END ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+<!-- PAGINATION Desgin END ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
   {% else %}
   <a href="">
     <card data-image="{% static 'books/images/404_book.png' %}">
@@ -206,7 +231,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <!-- partial -->
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Playfair+Display:700|Raleway:500.700'><link rel="stylesheet" href="{% static 'books/OnlineBib.css' %}">
 <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js'>
-</script><script  src="{% static 'books/script.js' %}"></script>
+</script><script  src="{% static 'books/books.js' %}"></script>
 
 </body>
 </html>

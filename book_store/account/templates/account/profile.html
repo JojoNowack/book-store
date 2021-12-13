@@ -7,10 +7,11 @@
 {% endblock %}
 
 {% block route %}
-    <a class="nav-item nav-link"</a>
+    <a class="nav-item nav-link"></a>
 {% endblock route %}
 <strong>rendered as bold text</strong>
 {% block content %}
+<div class="glasscontainer addpadding" style="margin-top: 0px;">
     <div class="content-selection">
         <div class="media">
             <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
@@ -20,22 +21,29 @@
                         <li><strong>Email: </strong>{{user.email}}</li>
                         <li><strong>Vorname: </strong>{{user.first_name}}</li>
                         <li><strong>Nachname: </strong>{{user.last_name}}</li>
+                        {% if user.is_superuser %}
+                        <li style="color:red;"><strong style="color:black;">Status: </strong>Admin</li>
+                        {% else %}
+                        <li style="color: rgb(11, 11, 97);"><strong style="color:black;">Status: </strong>Member</li>
+                        {% endif %}
+                        
                     </ul>
             </div>
         </div>
         <!--- FORM HERE -->
-        {% comment %} falls eine Profil-Änderung gebraucht wird: <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Profil Überblick:</legend>
-                {{ u_form|crispy }}
-                {{ p_form|crispy }}
-            </fieldset>
-            <div class="form-gorup">
-                <button class="btn btn-outline-info" type="submit">Ändern</button>
-            </div>
-        </form> {% endcomment %}
-    </div>
-{% endblock content %}
+            <fieldset class="form-group registerhinttext">
+                <legend class="border-bottom mb-4 ">Profil Info</legend>
+                        {{ u_form|crispy }}
+                        {{ p_form|crispy }}
+                </fieldset>
+                <div class="form-gorup">
+                    <button class="btn btn-info" style="font-weight:bold;"  type="submit">Aktualisieren</button>
+                </div>
+            </form>
+        </div>
+        {% endblock content %}
+        
 
 

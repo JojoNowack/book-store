@@ -24,16 +24,26 @@ urlpatterns = [
     # register path
     path('login/', include('account.urls')),
     path('books/', include('books.urls'),name='books-site'),
+     path('order/', include('order.urls'),name='order-site'),
     path('', lambda req: redirect('/books/')),
     path('faq/', faq, name='faq-site'),
-    path('profile/', acc_views.profile, name='profile')
+    path('profile/', acc_views.profile, name='profile'),
     
-    
+    # paths for password reset: 
+    # sends the user to the form where the user can add his e-mail to reset his password
+    path('password-reset/', auth_views.PasswordResetView.as_view(template_name='account/password_reset.html'),name='password_reset'), 
+    # the user gets a notification, that the password was sent to his email address
+    path('password-reset/done', auth_views.PasswordResetDoneView.as_view(template_name='account/password_reset_done.html'),name='password_reset_done'),
+    # after clicking to the link in the email, the user is able to change his password
+    path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='account/password_reset_confirm.html'),
+         name='password_reset_confirm'), 
+    # after setting a new password, a notification will be displayed that the password was successfully changed
+    path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='account/password_reset_complete.html'),
+         name='password_reset_complete'),      
 ] 
 handler404 = customhandler404
 handler500 = customhandler500
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    
 

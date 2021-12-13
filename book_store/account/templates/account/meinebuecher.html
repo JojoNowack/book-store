@@ -1,0 +1,184 @@
+{% extends 'account/base.html' %}
+
+{% load static %}
+{% load save_var %}
+
+{% block content %}
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Playfair+Display:700|Raleway:500.700'>
+    <title>Deine Bücher</title>
+
+    
+  </head>
+
+<!-- Typing Effect START
+Copyright (c) 2021 by Marko (https://codepen.io/denic/pen/GRoOxbM)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. --> 
+
+  <div class="wrapper">
+    <div class="typing-demo2">
+      Hier sind deine Bücher.
+    </div>
+  </div>
+  <!--END Typing Effect Copyright (c) 2021 by Marko (https://codepen.io/denic/pen/GRoOxbM)-->
+  <div class="vertical-and-horizontal-center">
+  <div class="ausleihbutton" style="margin-top: -18px;">
+  <a href="../../order"  class="round-black-btn">Jetzt Bücher Abholen</a>
+</div>
+</div>
+
+
+<div class="glasscontainer">
+<div id="app">
+<div class="product-info-tabs" style="margin-top: 118px;">
+  <div class="centertabs">
+  <ul class="nav nav-tabs"id="myTab" role="tablist">
+<li class="nav-item"style="margin-top: -32px;" >
+    <a class="nav-link active" style="color:black; font-weight: bold; background: white;" id="borrowed_books-tab" data-toggle="tab" href="#borrowed_books" role="tab" aria-controls="borrowed_books" aria-selected="true">Ausgeliehene Bücher</a>
+  </li>
+  <li class="nav-item" style="margin-top: -32px;">
+    
+    <a class="nav-link"style="color:Black; font-weight: bold; background: white;" id="reserved_books-tab" data-toggle="tab" href="#reserved_books" role="tab" aria-controls="reserved_books" aria-selected="false">Bücher zum Abholen</a>
+    
+  </li>
+</ul>
+</div>
+<div class="tab-content" id="myTabContent">
+<div class="tab-pane fade show active" style="color:black;" id="borrowed_books" role="tabpanel" aria-labelledby="borrowed_books-tab">
+<!--Hier Bücher-->
+<div class="containercards2">
+    
+    
+
+    
+  {% for Order in all_books %}
+  {% if Order.book_borrowed == True %}
+  {% define 1 as counter %}
+    <!-- LOOP -->
+<div class="profilbooksdetails">
+
+
+      <a href="../../books/products?title={{Order.books.title.lower}}&id={{Order.books.id}}">
+        <!-- Bücherkarten Template fürs Design verwendet
+        Copyright (c) 2021 by Andy Merskin (https://codepen.io/andymerskin/pen/XNMWvQ)
+
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.-->
+        
+
+
+        <!--Alle Buecher die schon abgeholt wurden also daher kein stornieren mehr möglich-->
+          <card data-image="{{Order.books.book_img.url}}">
+          </card>
+      </a>
+          <h1>Ausgeliehen:</h1> <strong>{{Order.borrow_date}}</strong>
+  </br>
+          <h1>Rückgabe:</h1> <strong>{{Order.return_date}}</strong>
+      </br>
+  
+          {% if Order.books.quantity >= 2 %}
+          <div class="centerbuttons">
+            {% if current_date > Order.return_date %}
+            <form action="#" method="post"  > <!--Button für verlängern -->
+          <a href="" title="Um 14 Tage verlängern" onclick="document.forms[0].submit(); return false;" class="round-green-btn" >Verlängern</a>
+          <input  type="hidden" class="round-black-btn"  name="bookID" value="{{Order.books.id}}"> <!-- isextend[0]-->
+          <input  type="hidden" class="round-black-btn"  name="isextend" value="true"> <!-- isextend[1]-->
+        </form>
+          {% endif %}
+          </div>
+          {% endif %}
+      </div>
+      {% endif %}
+      {% if forloop.last %}
+      {% if counter != 1 %}
+      </br>
+      <h1>Du hast keine ausgeliehene Bücher, füge <a href="{% url 'books-site' %}"> hier </a> Bücher hinzu. Du kannst diese dann in unserer Bibiliothek abholen!</h1>
+      {% endif %}
+      {% endif %}
+      {% empty %}
+    </br>
+      <h1>Du hast keine ausgeliehene Bücher, füge <a href="{% url 'books-site' %}"> hier </a> Bücher hinzu. Du kannst diese dann in unserer Bibiliothek abholen!</h1>
+      {% endfor %}
+<!-- LOOP -->
+ <!-- END Bücherkarten Template-->
+
+      
+
+        </div>
+<!--Hier Bücher-->
+ 
+</div>
+  <div class="tab-pane fade" style="color:black;" id="reserved_books" role="tabpanel" aria-labelledby="reserved_books-tab">
+    
+
+  <div class="containercards2" >
+    
+    
+
+    <!--All books who are reserved but not borrowed-->
+    {% for Order in all_books %}
+    {% if Order.book_borrowed == False %}
+    {% define 1 as counter1 %}
+<div class="profilbooksdetails">
+    <!-- LOOP -->
+ 
+        <a href="../../books/products?title={{Order.books.title.lower}}&id={{Order.books.id}}">
+            <card data-image="{{Order.books.book_img.url}}">
+            </card>
+        </a>
+            <h1>Ausgeliehen:</h1> <strong>{{Order.borrow_date}}</strong>
+    </br>
+            <h1>Rückgabe:</h1> <strong>{{Order.return_date}}</strong>
+        </br>
+            <div class="centerbuttons">
+              <form action="#" method="post"  > <!--Button für stornieren -->
+                <input  type="hidden" class="round-black-btn"  name="bookID" value="{{Order.books.id}}"> <!-- isextend[0]-->
+                <input  type="hidden" class="round-black-btn"  name="isextend" value="false"> <!-- isextend[1]-->  
+                <a href="" title="Jetzt Stornieren" class="round-red-btn" onclick="document.forms[1].submit(); return false;">Stornieren</a>   
+                </form>
+        </div>
+        </div>
+        {% endif %}
+        {% if forloop.last %}
+        {% if counter1 != 1 %}
+        </br>
+        <h1>Du hast keine ausgeliehene Bücher, füge <a href="{% url 'books-site' %}"> hier </a> Bücher hinzu. Du kannst diese dann in unserer Bibiliothek abholen!</h1>
+        {% else %}
+        {% endif %}
+        {% endif %}
+        {% empty %}
+      </br>
+        <h1>Du hast keine ausgeliehene Bücher, füge <a href="{% url 'books-site' %}"> hier </a> Bücher hinzu</h1>
+        {% endfor %}
+<!-- LOOP -->
+
+        
+
+          </div>
+      
+
+      
+            </div>
+</div>
+</div>
+</div>
+</div>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Playfair+Display:700|Raleway:500.700'><link rel="stylesheet" href="{% static 'books/OnlineBib.css' %}">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js'>
+</script><script  src="{% static 'account/books.js' %}"></script>
+  {% endblock content %}
+
+

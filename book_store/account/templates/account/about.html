@@ -1,7 +1,9 @@
 {% extends 'account/base.html' %}
 
 {% block content %}
+<div class="glasscontainer addpaddinglogin" style="margin-top: 0px !important;">
    <h1>About Seite!</h1>
+</div>
 {% endblock content %}
 
 
@@ -9,11 +11,13 @@
 {% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>    
+    
     {% if title %}
         <title>Django-Blog - {{title}} </title>
     {% else %}
         <title>Django-Blog </title>
     {% endif %}
+
 </head>
 <body>
 </body>

@@ -23,6 +23,8 @@ class Author(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    total_orders = models.IntegerField(default=0)
+    #rename to current_orders
     #orders = models.ForeignKey(Order, on_delete=CASCADE)
     
 # there could be problems if u havent installed 'pillow' 

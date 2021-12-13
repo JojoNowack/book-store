@@ -10,6 +10,8 @@ from decouple import config
 from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
+from django.contrib.messages import constants as message_constants
+MESSAGE_LEVEL = message_constants.DEBUG
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,16 +28,16 @@ if SECRET_KEY is None:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'book_store',
-    'books',
-    'order',
     'account',
+    'books',
+    'order',   
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

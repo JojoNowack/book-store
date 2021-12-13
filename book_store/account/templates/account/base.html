@@ -16,16 +16,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'account/main.css' %}">
 
 
-    <style>
-        body{
-            background-image: linear-gradient( rgba(0, 0, 0, 0%), rgba(0, 0, 0, 100%) ), url("{% static 'books/images/wallpaper.png' %}") !important;
-        background-position: center top;
-        background-attachment: fixed;
-        background-clip: padding-box;
-        background-size: cover;
-
-        }
-      </style>
+    
     
     {% comment %} {% if title %}
         <title>{{title}} </title>
@@ -53,6 +44,7 @@
             {% endif %}
    
         {% block content %}{% endblock %}
+       </div>
     </main>
         </div>
         {% comment %} <div class="col-md-4">
