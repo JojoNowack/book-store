@@ -21,7 +21,7 @@ def register(request):
             form.save()   
             messages.success(request, f'Konto wurde angelegt! Sie können sich nun anmelden.')
             verify_borrows(username)
-            return redirect('login-site')
+            return redirect('/login')
     else:
         form = UserRegisterForm()
     return render(request, 'account/register.html', {'form':form})
