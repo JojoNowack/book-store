@@ -3,14 +3,14 @@ from django.db.models.deletion import CASCADE
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from books.models import Book
+# from books.models import Book
 # from order.models import Order
 
 # Create your models here.
 
 class Author(models.Model): 
     author_name = models.CharField(max_length=45)
-    books = models.ManyToManyField(Book)
+    # books = models.ManyToManyField(Book)
    
     
     def __str__(self):
