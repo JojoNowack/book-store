@@ -42,19 +42,10 @@
   </label>
    <nav class="hidescrollbarmenu2">
     <ul>
-	  <li><a href="?genre=Fantasy">Fantasy</a></li>
-	  <li><a href="?genre=Kinderbuch">Kinderbuch</a></li>
-	  <li><a href="?genre=Thriller">Thriller</a></li>
-	  <li><a href="?genre=Roman">Roman</a></li>
-	  <li><a href="#">Home</a></li>
-    <li><a href="#">Home</a></li>
-	  <li><a href="#">Home</a></li>
-	  <li><a href="#">Home</a></li>
-	  <li><a href="#">Home</a></li>
-    <li><a href="#">Home</a></li>
-	  <li><a href="#">Home</a></li>
-	  <li><a href="#">Home</a></li>
-	  <li><a href="#">Home</a></li>
+    {% for category in categories|dictsort:"genre" %}
+    <li><a href="?genre={{category.id}}">{{category.genre}}</a></li>
+    {% endfor %}
+
 
     </ul>
   </nav>

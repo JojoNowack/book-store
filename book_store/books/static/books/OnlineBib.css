@@ -796,8 +796,8 @@ h1 + p, p + p {
   position: relative;
    font-size: 20px;
   flex: 0 0 240px;
-  width: 300px;
-  height: 400px;
+  width: 260px;
+  height: 350px;
   background-color: #333;
   overflow: hidden;
   border-radius: 10px;

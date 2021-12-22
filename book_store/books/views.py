@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 
 
-from .models import Book
+from .models import Book, Category
 from .filters import booksFilter, booksFilterwithGenre
 from order.models import Order
 from account.models import Profile
@@ -73,7 +73,14 @@ def getdetails(request):
                     id = request.GET['id']          
                     currentbook = Book.objects.get(id=id)
                     all_articels = Book.objects.all()
-                    context = {"currentbook": currentbook,"all_articels":all_articels,"showalert":showalert,"orderdata":orderdata}     
+                    # Kategorie bekommen
+                    Kategorie = Book.genre.through.objects.filter(book_id=id)
+                    all_categories = Category.objects.all()
+                   # all_categories = list()
+                   # for i in range(0,len(Kategorie)):
+                   #   all_categories.append(Category.objects.get(id=Kategorie[i].category_id))     
+                   #   #print(str(all_categories[i]))
+                    context = {"currentbook": currentbook,"all_articels":all_articels,"showalert":showalert,"orderdata":orderdata,"Kategorie":Kategorie,"all_categories":all_categories}     
                     return HttpResponse(template.render(context,request))
                 except Exception as e:
                     #Buch wurde nicht gefunden und Buch mit ID 1 wird stattdessen ausgegeben
@@ -204,13 +211,13 @@ def zurückgeben(UserID,BookID):
 def booksmainpage(request):
    print('Bücher werden angezeigt')
    try:
-        genre = request.GET['genre']
+        genre = request.GET['genre'] # Filter mit Genre
         filtered_books = booksFilterwithGenre(
         request.GET,
         queryset=Book.objects.all()
         )
         all_articels = Book.objects.all()
-   except:
+   except: # Filter ohne Genre
         filtered_books = booksFilter(
         request.GET,
         queryset=Book.objects.all()
@@ -222,7 +229,8 @@ def booksmainpage(request):
         paginated_filtered_books = Paginator(filtered_books.qs, 20)
         page_number = request.GET.get('page')
         books_page_obj = paginated_filtered_books.get_page(page_number)
-        context = {"filtered_books": filtered_books, "all_articels": all_articels, "books_page_obj": books_page_obj}
+        categories = Category.objects.all()
+        context = {"filtered_books": filtered_books, "all_articels": all_articels, "books_page_obj": books_page_obj,"categories": categories}
         #return HttpResponse(template.render(context,request))  
         return render(request,'index.html',context=context)
 

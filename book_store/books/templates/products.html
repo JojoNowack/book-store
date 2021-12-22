@@ -216,7 +216,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 						<li>Band: {{currentbook.part}}</br>	  </li> 
 						<li>Seiten: {{currentbook.pages}}</br>	  </li> 
 					    <li>Veröffentlichung: {{currentbook.year}}</br>	</li>
-						<li>Genre: <a href="../?genre={{currentbook.genre}}" style="color: rgb(11, 11, 97); text-decoration: underline; font-weight: bold;">{{currentbook.genre}}</a></br>	</li>
+						<!-- Anzeigen zur Multi Kategorie Anfang-->
+						{% for Category in Kategorie %}
+						 {% if forloop.first %}
+						  {% for genre in all_categories %}
+					     	{% if Category.category_id == genre.id %}
+
+						      <li>Genre: <a href="../?genre={{genre.id}}" style="color: rgb(11, 11, 97); text-decoration: underline; font-weight: bold;">{{genre.genre}}</a>
+						
+						   {% endif %}
+					  	  {% endfor %}
+						 {% else %}
+						  {% for genre in all_categories %}
+						   {% if Category.category_id == genre.id %}
+						,<a href="../?genre={{genre.id}}" style="color: rgb(11, 11, 97); text-decoration: underline; font-weight: bold;">{{genre.genre}}</a>
+						   {% endif %}
+						  {% endfor %}
+						{% endif %}
+					
+						{% endfor %}
+					   </li>
+					   <!-- Anzeigen zur Multi Kategorie Ende-->
 						{% if user.is_superuser %}
 						<li>Verfügbar: {{currentbook.quantity}}</br>	</li>
 						<li>Totalorders: {{currentbook.totalorders}}</br>	</li>
