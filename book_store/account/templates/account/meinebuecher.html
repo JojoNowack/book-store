@@ -93,9 +93,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
           <div class="centerbuttons">
             {% if current_date > Order.return_date %}
             <form action="#" method="post"  > <!--Button für verlängern -->
-          <a href="" title="Um 14 Tage verlängern" onclick="document.forms[0].submit(); return false;" class="round-green-btn" >Verlängern</a>
           <input  type="hidden" class="round-black-btn"  name="bookID" value="{{Order.books.id}}"> <!-- isextend[0]-->
           <input  type="hidden" class="round-black-btn"  name="isextend" value="true"> <!-- isextend[1]-->
+          <button class="round-green-btn" style="cursor: pointer;" title="Um 14 Tage verlängern" type="submit">Verlängern</button> 
+
         </form>
           {% endif %}
           </div>
@@ -147,7 +148,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
               <form action="#" method="post"  > <!--Button für stornieren -->
                 <input  type="hidden" class="round-black-btn"  name="bookID" value="{{Order.books.id}}"> <!-- isextend[0]-->
                 <input  type="hidden" class="round-black-btn"  name="isextend" value="false"> <!-- isextend[1]-->  
-                <a href="" title="Jetzt Stornieren" class="round-red-btn" onclick="document.forms[1].submit(); return false;">Stornieren</a>   
+                <button class="round-red-btn" title="Stornieren" style="cursor: pointer;" type="submit">Stornieren</button> 
                 </form>
         </div>
         </div>

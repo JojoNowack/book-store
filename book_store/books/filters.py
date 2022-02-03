@@ -37,6 +37,8 @@ class booksFilterwithGenre(django_filters.FilterSet):
 
     all_categories = Category.objects.all()
     max_category = Category.objects.count()
+
+    
     for x in range(0,max_category):
      globals()['cat%s' % x] = all_categories[x].genre
      globals()['catid%s' % x] = all_categories[x].id
@@ -44,12 +46,7 @@ class booksFilterwithGenre(django_filters.FilterSet):
         (globals()['catid%s' % i],globals()['cat%s' % i]) for i in range(0,max_category)
     ]   
 
-    GENRE_CHOICES = {
-        ('Fantasy', 'Fantasy'),
-        ('Thriller', 'Thriller'),
-        ('Roman', 'Roman'),
-        ('Kinderbuch', 'Kinderbuch'),
-    }
+    
     title = CharFilter(field_name='title',lookup_expr='icontains', label='Buchtitel')
     year = NumberFilter(field_name='year',lookup_expr='icontains',label='Herrausgabejahr',min_value=1900, max_value=2100)
     author = CharFilter(field_name='book_author',label='Autor',lookup_expr='icontains')

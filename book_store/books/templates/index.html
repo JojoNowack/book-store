@@ -42,6 +42,7 @@
   </label>
    <nav class="hidescrollbarmenu2">
     <ul>
+      
     {% for category in categories|dictsort:"genre" %}
     <li><a href="?genre={{category.id}}">{{category.genre}}</a></li>
     {% endfor %}
@@ -158,10 +159,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
           {% if Book.isavailable %}
     
     
-          {% else %} <!---- Else    if all_articels  ----->
+          {% else %} 
           <h2 slot="content">NICHT VERFÜGBAR</h2>
           {% endif %}
-          {% endif %} <!---- End    if XY in articles.title  ---->
+          {% endif %}
     </card>
     </a>
    
@@ -179,7 +180,9 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
-<!-- Code Start from https://simpleisbetterthancomplex.com/snippet/2016/08/22/dealing-with-querystring-parameters.html-->
+<!-- Code Start from https://simpleisbetterthancomplex.com/snippet/2016/08/22/dealing-with-querystring-parameters.html -->
+
+<!-- Pagination Code in books/template/index.html Zeile 183-->
 {% if books_page_obj.paginator.num_pages == 1 %}
 {% else %}
 <div class="containerpagination xsmall">
@@ -193,11 +196,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   {% if books_page_obj.has_next %}
   <li><a href="{% relative_url books_page_obj.next_page_number 'page' request.GET.urlencode %}" slot="content">WEITER</a></li>
   {% else %}
-  <li><a href="{% relative_url 1 'page' request.GET.urlencode %}"slot="content">ZURÜCK ZU SEITE 1</a></li>
+  <li><a hidden href="{% relative_url 1 'page' request.GET.urlencode %}"slot="content">ZURÜCK ZU SEITE 1</a></li>
   {% endif %}
 </div>
 </div>
 {% endif %}
+
 <!-- Code End from https://simpleisbetterthancomplex.com/snippet/2016/08/22/dealing-with-querystring-parameters.html-->
 
 
