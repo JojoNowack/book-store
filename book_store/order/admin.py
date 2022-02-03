@@ -20,3 +20,5 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Order,OrderAdmin)
 
+from django.contrib import admin
+from .models import Order

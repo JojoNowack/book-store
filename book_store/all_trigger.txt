@@ -1,0 +1,44 @@
+CREATE TRIGGER Check_Quantity
+	After update
+	on books_book
+	WHEN NEW.quantity < 0
+	begin
+    SELECT RAISE(ABORT, 'TriggerError in Check_Quantity: Achtung du kannst kein Buch mehr hinzufügen, da du kein Buch mehr von dieser ID hast!');
+	end
+	
+CREATE TRIGGER bigger_then_zero_available_true
+	After update
+	on books_book
+	
+	for each row
+	WHEN NEW.quantity > 0
+	begin
+    update books_book set isavailable = true where id=new.id;
+	end
+
+CREATE TRIGGER books_add__and_account_total_order_minus
+after delete
+	on order_order
+	begin
+		update books_book set quantity = quantity + 1 where id = old.books_id;
+		update account_profile set "current_orders" = "current_orders" + 1 where user_id = old.users_id;
+	end
+
+CREATE TRIGGER books_minus_and_account_total_order_minus
+after insert
+	on order_order
+	begin
+		update books_book set quantity = quantity - 1 where id = new.books_id;
+		update account_profile set "current_orders" = "current_orders" - 1 where user_id = new.users_id;
+		/*update books_book set totalorders = totalorders + 1 where id = new.books_id;*/
+	end
+
+CREATE TRIGGER smaller_then_zero_available_false
+	After update
+	on books_book
+	
+	for each row
+	WHEN NEW.quantity = 0
+	begin
+    update books_book set isavailable = false where id=new.id;
+	end

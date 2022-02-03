@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 
 
-from .models import Book
+from .models import Book, Category
 from .filters import booksFilter, booksFilterwithGenre
 from order.models import Order
 from account.models import Profile
@@ -38,7 +38,8 @@ class bcolors:
 # Diese Funktion wird für das Anzeigen der einzelnen Büchern in z.B. http://127.0.0.1:8000/books/products/?title=harry%20potter%20und%20der%20gefangene%20von%20askaban&id=4
 # verwendet.
 # Sie hat eine Get und eine Post Methode
-# 
+# Get = anzeigen des Buches auf products.html
+# Post = Bestellprozess in products.html mit allen Fehlermeldungen
 @csrf_exempt
 def getdetails(request):
        @csrf_protect
@@ -54,29 +55,35 @@ def getdetails(request):
           
           if request.method == 'GET':
              #Get Methode für das reine anzeigen der Bücher
-                #print("GETTTT!!")
+               
                 try:
+                #Falls der Wert Status übergeben wird
                     status = request.GET['status'] 
                     orderdata = Order.objects.all()
                     template = loader.get_template('products.html')
                     id = request.GET['id']          
                     currentbook = Book.objects.get(id=id)
                     all_articels = Book.objects.all()
-                    context = {"currentbook": currentbook,"all_articels":all_articels,"showalert":showalert,"orderdata":orderdata,"status": status}     
+                    context = {"currentbook": currentbook,"all_articels":all_articels,"orderdata":orderdata,"status": status}     
                     return HttpResponse(template.render(context,request))
                 except:
                    {}
                 try:
-                    
+                #Falls der Wert Status nicht übergeben wird 
                     orderdata = Order.objects.all()   
                     template = loader.get_template('products.html')
                     id = request.GET['id']          
                     currentbook = Book.objects.get(id=id)
                     all_articels = Book.objects.all()
-                    context = {"currentbook": currentbook,"all_articels":all_articels,"showalert":showalert,"orderdata":orderdata}     
+                    # Kategorie bekommen
+                    Kategorie = Book.genre.through.objects.filter(book_id=id)
+                    all_categories = Category.objects.all()               
+                    context = {"currentbook": currentbook,"all_articels":all_articels,"orderdata":orderdata,"Kategorie":Kategorie,"all_categories":all_categories}     
                     return HttpResponse(template.render(context,request))
                 except Exception as e:
                     #Buch wurde nicht gefunden und Buch mit ID 1 wird stattdessen ausgegeben
+                    #Fehlermeldung falls das Buch nicht gefunden wurde
+                    #Buch mit ID 1 wird ausgegeben, das wird immer angezeigt, falls etwas nicht gefunden wird Buch mit ID 1 = Buch 404
                     logger = logging.Logger('catch_all')
                     logger.error(bcolors.FAIL +'WARNUNG: '+ str(e) + bcolors.ENDC)
                     id = 1 # 404 Book
@@ -87,19 +94,21 @@ def getdetails(request):
                     return HttpResponse(template.render(context,request))
           #@login_required
           if request.method == 'POST':
-              # Post methode --> Bestellprozess
+           #Post methode --> Bestellprozess
            #print("POST!!!!!")
-           BuchID = request.POST.getlist('buch[]')
-           buch = Book.objects.get(id=BuchID[0])      
+           
+           BuchID = request.POST.getlist('buch[]') 
+           buch = Book.objects.get(id=BuchID[0]) 
            benutzer = User.objects.get(id=current_user.id)
            order_from_user = Order.objects.filter(users=current_user.id)
            ids    = order_from_user.values_list('books', flat=True)
            all_borrowdates_from_user = order_from_user.values_list('return_date', flat=True)
            user_has_borrowed = order_from_user.values_list('book_borrowed', flat=True)
 
+           # Hat der Benutzer ein anderes Buch abgeholt und dessen Abgabe überschritten?
            if(book_over_time(all_borrowdates_from_user,current_user.id,user_has_borrowed) == False):
                  return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=4')
-                 #Fehler--> Abgabe überschritten
+                 #Fehler Status 4 --> Abgabe überschritten
            else:
                 if int(BuchID[0]) in ids: #Buch wurde schon ausgeliehen
                   print(bcolors.WARNING +"WARNUNG: User: "+ str(benutzer) + " wollte Buch: "+ str(buch) + " ein weiteres mal ausleihen!" + bcolors.ENDC)
@@ -108,32 +117,31 @@ def getdetails(request):
                 else: #Buch ausleihen
                   if(countmaxbooks(request)):
                       print(bcolors.WARNING+ "ACHTUNG: Benutzer mit ID: "+ str(current_user) + " hat die maximale Anzahl an Büchern erreicht!"+ bcolors.ENDC)
-                      return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=5')               
+                      return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=5')     
+
                   if(buch.isavailable):
                    currentDate = date.today()
-                   #currentDate_timezone = timezone.make_aware(currentDate)
-                   #print( "We are the {:%d, %b %Y}".format(current_date_and_time))
                    returnDate = currentDate + timedelta(days=buch.ausleihtage)
                    o = Order.objects.create(books=buch,users=benutzer,borrow_date=currentDate,return_date=returnDate,book_borrowed=False)
                    o.save()
-                   showalert = 1  
+                   
                    print(bcolors.OKGREEN +"Buch ID: " + str(BuchID[0]) +" wurde von ID: " +str(current_user.id)+" ausgeliehen"+ bcolors.ENDC)
                    return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=success')
                    #Buch erfolgreich ausgeliehen
                   else:
-                   showalert = 6
                    print(bcolors.OKGREEN +"Buch ID: " + str(BuchID[0]) +" konnte nicht " +str(current_user.id)+" ausgeliehen - Kein Buch vorhanden!"+ bcolors.ENDC)
-                   #Buch nicht vorhanden
+                   #Buch nicht vorhanden+
                    return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=failed')
 
 
        except Exception as e:
            #Unerwarteter Fehler im Gesamten Bestellprozess
-           logger = logging.Logger('catch_all') # POST
+           #z.B. ist ein unerklärlichen Gründen der Bestand des Buches auf unter 0 gesprungen und es 
+           # konnte trotzdem ausgeliehen werden, dann triggert die Datenbank mit einem Trigger     
+           logger = logging.Logger('catch_all') 
            print(bcolors.FAIL +"WARNUNG: Der Ausleihprozess konnte nicht abgeschlossen werden!" +  bcolors.ENDC)
            logger.error(bcolors.FAIL +'WARNUNG: '+ str(e) + bcolors.ENDC)
            PrintException()
-           showalert = 3
            return HttpResponseRedirect('?title='+buch.title+'&id='+str(buch.id)+'&status=error')
 
 # Maximale Bücher des Users zählen, ist er über 10 --> return false und beende den Prozess mit einer Alert Message
@@ -148,24 +156,8 @@ def countmaxbooks(request):
     else:
      return False
 
-# kann diese Funktion gelöscht werden?
-def cancelproduct(request):
-    #Buch zurückgeben, checkt ob man das Buch auch wirklich ausgeliehen hat --> book_borrowed = true
-    current_user = request.user
-    bookID = request.GET['bookID']
-    buch = Book.objects.get(id=bookID)
-    try:
-     orderbook = Order.objects.filter(users=current_user,books=bookID)
-     if(orderbook[0].book_borrowed):
-         {}
-     else:
-      zurückgeben(current_user,bookID)
-      return HttpResponseRedirect('../?title='+buch.title+'&id='+bookID)
-    except:
-      return HttpResponseRedirect('../?title='+buch.title+'&id='+bookID)
-    return HttpResponseRedirect('../?title='+buch.title+'&id='+bookID)
-# Checkt ob der User ein Buch besitzt, dass schon über der Frist liegt, wenn ja gibt die Funktion eine Fehlermeldung und return false aus und der Prozess wird mit 
-# einer alert message beendet, die besagt, dass der Benutzer zuerst seine Bücher abgeben soll.
+
+
 def book_over_time(borrowdates,current_user,user_has_borrowed):
     for i in range(len(borrowdates)):
        #date_time_obj = datetime.strptime(str(borrowdates[i]),'%y/%m/%d %H:%M:%S')
@@ -194,23 +186,24 @@ def PrintException():
     print(bcolors.WARNING + "WARNUNG: IN Zeile: " + str(lineno) + " mit Fehler: "+ bcolors.FAIL + line.strip()  + bcolors.ENDC)
 #End 
 
-def zurückgeben(UserID,BookID):
-    Order.objects.filter(users=UserID,books=BookID).delete()
-    print(bcolors.OKGREEN + "User: " + str(UserID) +" hat Buch mit ID: "+str(BookID)+ " zurückgegeben"  + bcolors.ENDC)
-    return
 
 # Zum anzeigen der Bücher in der Main Page
 # Werte werden durch einen Context dem template index.html übergeben
 def booksmainpage(request):
    print('Bücher werden angezeigt')
    try:
-        genre = request.GET['genre']
+        genre = request.GET['genre'] # Filter mit Genre
+        #Für Genre haben wir ein eigenen Filter (direkt ober erweiterte suche), wenn dieser ausgewählt 
+        # ist muss man den wert genre abfangen und diesen in die Form (erweiterte suche) eintragen
+        # Die Form übergibt dann den Wert weiter für die Filterung
+        # Da sonst zu viele Werte in der Form stehen, haben wir 2 Filter erstellt, einmal ohne genre und einmal mit genre, aber ersetzen das Dropdown menu.
+        # So bleibt die Form immer gleich.
         filtered_books = booksFilterwithGenre(
         request.GET,
         queryset=Book.objects.all()
         )
         all_articels = Book.objects.all()
-   except:
+   except: # Filter ohne Genre
         filtered_books = booksFilter(
         request.GET,
         queryset=Book.objects.all()
@@ -219,10 +212,11 @@ def booksmainpage(request):
         all_articels = Book.objects.all()
         #title = request.GET['title'].lower()
    finally:
-        paginated_filtered_books = Paginator(filtered_books.qs, 20)
+        paginated_filtered_books = Paginator(filtered_books.qs, 10) # maximale bücher anzeigen --> hier sind es 10 kann man aber immer frei wählen
         page_number = request.GET.get('page')
         books_page_obj = paginated_filtered_books.get_page(page_number)
-        context = {"filtered_books": filtered_books, "all_articels": all_articels, "books_page_obj": books_page_obj}
+        categories = Category.objects.all()
+        context = {"filtered_books": filtered_books, "all_articels": all_articels, "books_page_obj": books_page_obj,"categories": categories}
         #return HttpResponse(template.render(context,request))  
         return render(request,'index.html',context=context)
 

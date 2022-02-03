@@ -76,6 +76,7 @@ def showmybooks(request):
             print("ERROR CSRF_PROTECT IN ACCOUNT.VIEWS.PY")
     if request.method =='POST': #wenn auf einen der buttens gedrückt wurde
         if request.POST.get('isextend') == 'true' : #bedeutet es wurde der verlängern butten gedrückt
+
             #print(str(request.POST.getlist('idandisextend[]')[1] ))
             #order_order return date um 2 wochen verlängern
             order = __getorder__(request)

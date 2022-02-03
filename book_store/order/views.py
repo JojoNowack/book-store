@@ -9,9 +9,12 @@ from django.template import loader
 from books.models import Book
 from .models import collection
 from order.models import Order
+from django.contrib.auth.models import User
 import linecache
 import sys
 import random
+
+
 
 
 class bcolors:
@@ -28,13 +31,15 @@ class bcolors:
 @login_required
 #QRcode Daten empfangen
 def qrcode(request):
+  current_user = request.user
+  try:
     if(write_temp_order(request)):
       #response = render(request, 'collection.html',)
       current_user = request.user
       qr = collection.objects.get(user=current_user)   
-      qrcode = qr.temp_number
+      qr_code = qr.temp_number
       template = loader.get_template('collection.html')
-      context = {"qrcode": qrcode}
+      context = {"qrcode": qr_code}
       messages.success(request, f"Dein Abholungscode wird generiert...  ") 
       return HttpResponse(template.render(context,request))
     else:
@@ -42,7 +47,17 @@ def qrcode(request):
       context = {"qrcode": False}
       messages.warning(request, f"Du hast momentan keine Bücher zum Abholen") 
       return HttpResponse(template.render(context,request))
-      return 
+  except: # Falls account nicht auf der Webseite erstellt wird
+    currentuser = User.objects.get(username=current_user.username)
+    o = collection.objects.create(user=currentuser,temp_number=0,all_orders='')
+    o.save()
+
+    qrcode(request)
+    template = loader.get_template('collection.html')
+    context = {"qrcode": False}
+    return HttpResponse(template.render(context,request))
+  return
+
     #return response
 #Falls Bücher zum ausleihen vorhanden sind und diese noch nicht in der Bibiliothek abgeholt worden sind
 #also book_borrowed =! True, dann soll er alle Bücher mit einem Array in den QR Code schreiben
@@ -91,8 +106,8 @@ def admin_borrow(request):
          buecher = request.POST.getlist('buch[]')
          for i1 in range(10):
            if i1 in range(-len(buecher), len(buecher)):
-               #Bücher auf borrow setzen
-               #print(buecher)
+             
+               #Setzt den Wert book_borrowed auf True und erhöht die total_order des jeweiligen Benutzers
                order_user = collection.objects.filter(temp_number=id)           
                Order.objects.filter(users=order_user[0].user_id,books=buecher[i1]).update(book_borrowed=1)
                total = Book.objects.filter(id=buecher[i1])
@@ -101,7 +116,7 @@ def admin_borrow(request):
                print("total.orders: "+ str(total[0].totalorders))
                Book.objects.filter(id=buecher[i1]).update(totalorders=total_order)
                collection.objects.filter(user=order_user[0].user_id).update(all_orders='')
-               #return redirect('admin_order-site')
+
            else:
                DO_NOTHING
          messages.success(request, f"Aktion erfolgreich durchgeführt.") 
@@ -140,9 +155,9 @@ def admin_borrow(request):
        context = {"button": False}
        template = loader.get_template('admin_collection.html')
      return HttpResponse(template.render(context,request))
-    return redirect('books-site')
+    return redirect('books-site') # Kein Admin
  else:
-    return redirect('books-site')
+    return redirect('books-site') # Kein Admin
 
 
 #Copy Code from https://stackoverflow.com/questions/14519177/python-exception-handling-line-number/20264059 

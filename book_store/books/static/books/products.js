@@ -64,14 +64,14 @@ function sleep(ms) {
  
       }
       if (id === 4){
-        var div = document.getElementById('customalert4');
+        var div = document.getElementById('customalertinfo');
         div.innerHTML = "<h1>! </h1>" + " Sie haben Ihre Bücherabgaben nicht eingehalten, bitte verlängern Sie ihre Bücher oder geben Sie diese bitte zum nächstmöglichen Termin in der Bibiliothek ab";
         await sleep(600);
         document.querySelector('.myalert-info').classList.add('aktiv')
    
         }
         if (id === 5){
-          var div = document.getElementById('customalert5');
+          var div = document.getElementById('customalertmaxbooks');
           div.innerHTML = "<h1>! </h1>" + " Sie haben Ihre maximale Anzahl an Büchern, die Sie ausleihen können erreicht.";
           await sleep(600);
           document.querySelector('.myalert-maxbooks').classList.add('aktiv')

@@ -2,15 +2,13 @@ from django.db import models
 from django.db.models.deletion import CASCADE
 from django.utils import timezone
 from django.contrib.auth.models import User
-
-from books.models import Book
 # from order.models import Order
 
 # Create your models here.
 
 class Author(models.Model): 
     author_name = models.CharField(max_length=45)
-    books = models.ManyToManyField(Book)
+    # books = models.ManyToManyField(Book)
    
     
     def __str__(self):
@@ -23,9 +21,7 @@ class Author(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    total_orders = models.IntegerField(default=0)
-    #rename to current_orders
-    #orders = models.ForeignKey(Order, on_delete=CASCADE)
+    current_orders = models.IntegerField(default=0)
     
 # there could be problems if u havent installed 'pillow' 
 # just install it, by downloading it via pip: pip install pillow
